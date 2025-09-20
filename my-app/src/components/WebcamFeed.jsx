@@ -62,7 +62,13 @@ const WebcamFeed = ({ onCapture }) => {
         autoPlay // Important: makes the video play automatically.
         playsInline // Important: for mobile browsers.
         muted // Important: browsers often block autoplaying video with sound.
-        style={{ width: "100%", maxWidth: "640px", borderRadius: "8px" }}
+        style={{
+          width: "100%",
+          height: "auto",
+          borderRadius: "8px",
+          objectFit: "cover",
+          backgroundColor: "#000"
+        }}
       />
       {/* A hidden canvas used for capturing frames from the video. */}
       <canvas ref={canvasRef} style={{ display: "none" }} />

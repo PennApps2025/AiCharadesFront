@@ -66,9 +66,12 @@ body {
 /* --- Main Game Screen --- */
 .game-screen {
   display: flex;
+  align-items: start;
+  justify-content: center;
   flex-direction: column;
-  align-items: center;
-  gap: 20px;
+  width: 100%;
+  max-width: 900px; /* Keep a reasonable width */
+  margin: 0 auto;
 }
 
 /* --- Word Prompt Styling --- */
@@ -95,17 +98,11 @@ body {
 /* --- Webcam Feed Container --- */
 .webcam-container {
   width: 100%;
-  max-width: 640px;
-  background-color: #000;
-  border-radius: 16px;
+  max-width: 600px;
+  height: auto;
+  border-radius: "16px";
+  background-color: "#000";
   overflow: hidden;
-  box-shadow: 0 0 25px rgba(79, 70, 229, 0.5);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.webcam-container:hover {
-  transform: scale(1.01);
-  box-shadow: 0 0 35px rgba(79, 70, 229, 0.8);
 }
 
 /* --- AI Guess Display --- */
@@ -116,6 +113,7 @@ body {
   color: #22c55e; /* Neon green */
   text-shadow: 0 0 10px rgba(34, 197, 94, 0.7);
   animation: fadeIn 0.5s ease-in-out;
+  margin: 0;
 }
 
 /* --- Win Message Styling --- */
@@ -125,6 +123,17 @@ body {
   color: #22c55e;
   text-shadow: 0 0 15px rgba(34, 197, 94, 0.7);
   margin-bottom: 20px;
+}
+
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  background-color: #1e1e1e;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+  height: fit-content; /* Content only */
 }
 
 /* --- Animations --- */
@@ -206,5 +215,5 @@ body {
   align-items: center;
   width: 100%;
   max-width: 640px;
-  margin: 0 auto 20px auto;
+  margin: 0 auto 0 auto;
 }
