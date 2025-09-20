@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import axios from "react";
+import axios from "axios";
 import "./App.css";
 
 import StartScreen from "./components/StartScreen";
 import GameScreen from "./components/GameScreen";
 import WinCondition from "./components/WinCondition";
 
-// A simple list of words for the hackathon. You can expand this list.
+// A simple list of words for the hackathon.
 const WORD_LIST = [
   "dancing",
   "waving",
@@ -18,13 +18,16 @@ const WORD_LIST = [
   "singing",
 ];
 
+// Define the game duration in seconds.
+const GAME_DURATION = 10;
+
 function App() {
   // 'start', 'playing', 'won'
   const [gameState, setGameState] = useState("start");
   const [currentWord, setCurrentWord] = useState("");
   const [aiGuess, setAiGuess] = useState("");
 
-  // Effect to check for the win condition whenever the AI makes a new guess.
+  // This effect checks for the win condition whenever the AI makes a new guess.
   useEffect(() => {
     if (gameState === "playing" && aiGuess && currentWord) {
       // Simple win condition: check if the AI's guess includes the correct word.
@@ -47,17 +50,24 @@ function App() {
     setGameState("start");
   };
 
+  // This function is passed down to the Timer component.
+  // The Timer component will call this function when it reaches zero.
+  const handleTimeUp = () => {
+    console.log("Time is up!");
+    // You can create a separate "Time's Up" screen later.
+    // For now, we'll reuse the 'won' screen.
+    setGameState("won");
+  };
+
   // Function passed to the WebcamFeed component to send frames to the backend.
   const handleSendFrame = async (imageBlob) => {
     if (!imageBlob) return;
 
     const formData = new FormData();
-    // The backend expects a 'file' and the 'word' for context.
     formData.append("file", imageBlob, "capture.jpg");
     formData.append("word", currentWord);
 
     try {
-      // Send the image to your FastAPI backend.
       const response = await axios.post(
         "http://localhost:8000/guess",
         formData,
@@ -67,11 +77,9 @@ function App() {
           },
         }
       );
-      // Update the state with the AI's guess.
       setAiGuess(response.data.guess);
     } catch (error) {
       console.error("Error sending frame to backend:", error);
-      // Optionally, set an error message to display to the user.
     }
   };
 
@@ -86,6 +94,10 @@ function App() {
           word={currentWord}
           aiGuess={aiGuess}
           onCapture={handleSendFrame}
+          // --- CHANGED (for Option 2) ---
+          // Pass the duration and the callback function instead of timeLeft.
+          duration={GAME_DURATION}
+          onTimeUp={handleTimeUp}
         />
       )}
 
