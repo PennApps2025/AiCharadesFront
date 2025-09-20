@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-function CountdownTimer({ interval, onCapture }) {
+function CountdownTimer({ interval, onCapture, paused = false }) {
   const [timeLeft, setTimeLeft] = useState(interval);
   const [captureCount, setCaptureCount] = useState(0);
 
@@ -8,6 +8,8 @@ function CountdownTimer({ interval, onCapture }) {
   const capturedRef = useRef(false);
 
   useEffect(() => {
+    if (paused) return; // do not start interval when paused
+
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 0) {
@@ -26,7 +28,7 @@ function CountdownTimer({ interval, onCapture }) {
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [interval, onCapture]);
+  }, [interval, onCapture, paused]);
 
   return (
     <div className="countdown-arcade">

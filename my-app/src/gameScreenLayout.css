@@ -36,7 +36,9 @@
 /* --- Webcam Container --- */
 .webcam-container {
   /* Fixed-size webcam box centered in the page */
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
+  height: 100%;
   background-color: #000;
   border-radius: 16px;
   overflow: hidden;
@@ -45,11 +47,6 @@
   display: flex;
   justify-content: center;
   align-items: center; /* centers video inside container */
-}
-
-.webcam-container:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 35px rgba(79, 70, 229, 0.8);
 }
 
 /* --- Countdown Timer Arcade Style --- */

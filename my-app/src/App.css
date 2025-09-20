@@ -80,6 +80,15 @@ body {
   padding: 0 16px; /* breathing room on small screens */
 }
 
+/* Soft fade when transitioning between rounds to avoid flicker */
+.game-screen.transitioning {
+  opacity: 0.25;
+  transition: opacity 180ms ease-in-out;
+}
+.game-screen {
+  transition: opacity 180ms ease-in-out;
+}
+
 /* --- Word Prompt Styling --- */
 .word-prompt h1 {
   width: 100%;
@@ -202,8 +211,10 @@ body {
   height: 100%;
   background-color: #4caf50; /* A nice green for the progress */
   border-radius: 0 2px 2px 0; /* A slight curve on the end of the bar */
-  /* This makes the bar shrink smoothly instead of jumping every second */
-  transition: width 1s linear, background-color 0.5s ease;
+  /* Use GPU-accelerated transform for smooth continuous animation */
+  transform-origin: left center;
+  will-change: transform, background-color;
+  transition: background-color 0.4s linear;
 }
 
 /* --- You may need to update the game header as well --- */

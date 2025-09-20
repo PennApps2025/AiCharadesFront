@@ -7,50 +7,64 @@ import React, { useRef, useEffect, memo } from "react";
  * - Sends frames to the backend every 2 seconds
  * - Memoized to prevent unnecessary re-renders and blinking
  */
-const WebcamFeed = memo(({ onCapture }) => {
+const WebcamFeed = memo(({ onCapture, paused = false }) => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
   useEffect(() => {
-    async function getCamera() {
+    // Mount camera once and keep the stream until unmount to avoid flicker
+    let mounted = true;
+    let streamRef = null;
+
+    (async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        streamRef = stream;
+        if (!mounted) return;
         if (videoRef.current) videoRef.current.srcObject = stream;
       } catch (err) {
         console.error("Error accessing webcam:", err);
       }
-    }
+    })();
 
-    getCamera();
+    return () => {
+      mounted = false;
+      if (videoRef.current?.srcObject) {
+        videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
+      }
+      if (streamRef) {
+        try { streamRef.getTracks().forEach((t) => t.stop()); } catch (e) {}
+      }
+    };
+  }, []); // mount only once
 
-    // Capture frames every n seconds
-    const intervalId = setInterval(() => {
+  // capture interval effect: controlled separately so pause doesn't tear down the camera
+  useEffect(() => {
+    let intervalId = null;
+    if (paused) return; // don't start captures when paused
+
+    intervalId = setInterval(() => {
       if (!videoRef.current || !onCapture) return;
 
       const video = videoRef.current;
       const canvas = canvasRef.current;
 
-      if (canvas) {
+      if (canvas && video.videoWidth && video.videoHeight) {
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         const ctx = canvas.getContext("2d");
         ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
 
-        // Convert canvas to Blob and send
         canvas.toBlob((blob) => {
           if (blob) onCapture(blob);
         }, "image/jpeg");
       }
-    }, 4000); // n000 milliseconds = n seconds
+    }, 4000);
 
-    // Cleanup on unmount
     return () => {
-      clearInterval(intervalId);
-      if (videoRef.current?.srcObject) {
-        videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
-      }
+      if (intervalId) clearInterval(intervalId);
     };
-  }, [onCapture]);
+  }, [onCapture, paused]);
 
   return (
     <div className="webcam-container">
@@ -61,7 +75,7 @@ const WebcamFeed = memo(({ onCapture }) => {
         muted
         style={{
           width: "100%",
-          height: "auto",
+          height: "100%",
           borderRadius: "8px",
           objectFit: "cover",
           backgroundColor: "#000",

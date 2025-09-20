@@ -1,43 +1,105 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
-const Timer = ({ duration, onTimeUp }) => {
-  const [timeLeft, setTimeLeft] = useState(duration);
+const Timer = ({ duration, onTimeUp, paused = false, round = 0 }) => {
+  const durationMs = Math.max(0, (duration || 0) * 1000);
+  const rafRef = useRef(null);
+  const endTimeRef = useRef(null); // timestamp in ms when timer should hit 0
+  const lastNowRef = useRef(null);
+  const pausedRemainingRef = useRef(null); // ms remaining when paused
+  const calledRef = useRef(false);
+  const [, forceRerender] = useState(0); // used to re-render on RAF ticks
 
   useEffect(() => {
-    // When time runs out, call the parent function and stop the timer.
-    if (timeLeft <= 0) {
-      onTimeUp();
+    // Reset on duration or round change
+    calledRef.current = false;
+    pausedRemainingRef.current = null;
+    endTimeRef.current = Date.now() + durationMs;
+
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    };
+  }, [durationMs, round]);
+
+  useEffect(() => {
+    // Pause handling: freeze remaining ms and stop RAF
+    if (paused) {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+      if (endTimeRef.current) {
+        pausedRemainingRef.current = Math.max(0, endTimeRef.current - Date.now());
+      }
       return;
     }
 
-    // Set up an interval to decrease the time every second.
-    const intervalId = setInterval(() => {
-      setTimeLeft((prevTime) => prevTime - 1);
-    }, 1000);
+    // Resume: compute new endTime based on pausedRemaining if available
+    const now = Date.now();
+    if (pausedRemainingRef.current != null) {
+      endTimeRef.current = now + pausedRemainingRef.current;
+      pausedRemainingRef.current = null;
+    } else if (!endTimeRef.current) {
+      endTimeRef.current = now + durationMs;
+    }
 
-    // Clean up the interval when the component is no longer on screen.
-    return () => clearInterval(intervalId);
-  }, [timeLeft, onTimeUp]);
+    const tick = () => {
+      const now = Date.now();
+      const remainingMs = Math.max(0, endTimeRef.current - now);
 
-  const progressPercentage = (timeLeft / duration) * 100;
+      // force a re-render to update styles
+      forceRerender((v) => v + 1);
 
-  // --- NEW LOGIC FOR SMOOTH COLOR TRANSITION ---
+      if (remainingMs <= 0) {
+        // finished
+        if (rafRef.current) {
+          cancelAnimationFrame(rafRef.current);
+          rafRef.current = null;
+        }
+        if (!calledRef.current) {
+          calledRef.current = true;
+          onTimeUp?.();
+        }
+        return;
+      }
+
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    };
+  }, [paused, durationMs, onTimeUp, round]);
+
+  // compute progress [0..1]
+  let progress = 1;
+  if (paused && pausedRemainingRef.current != null) {
+    progress = Math.max(0, pausedRemainingRef.current / durationMs);
+  } else if (endTimeRef.current) {
+    const now = Date.now();
+    const remMs = Math.max(0, endTimeRef.current - now);
+    progress = Math.max(0, remMs / durationMs);
+  }
+
+  const percent = Math.round(progress * 100);
+
+  // color gradient
   const getGradientColor = (percent) => {
-    // Define the key colors in RGB format
     const red = [244, 67, 54];
     const yellow = [255, 235, 59];
     const green = [76, 175, 80];
 
     let color;
     if (percent <= 50) {
-      // Transition from Red to Yellow (0% to 50%)
       const factor = percent / 50;
       const r = red[0] + (yellow[0] - red[0]) * factor;
       const g = red[1] + (yellow[1] - red[1]) * factor;
       const b = red[2] + (yellow[2] - red[2]) * factor;
       color = `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
     } else {
-      // Transition from Yellow to Green (50% to 100%)
       const factor = (percent - 50) / 50;
       const r = yellow[0] + (green[0] - yellow[0]) * factor;
       const g = yellow[1] + (green[1] - yellow[1]) * factor;
@@ -47,15 +109,15 @@ const Timer = ({ duration, onTimeUp }) => {
     return color;
   };
 
-  const barColor = getGradientColor(progressPercentage);
+  const barColor = getGradientColor(percent);
 
   return (
     <div className="timer-bar-container">
       <div
         className="timer-bar-progress"
         style={{
-          width: `${progressPercentage}%`,
-          backgroundColor: barColor, // Set the background color dynamically
+          transform: `scaleX(${progress})`,
+          backgroundColor: barColor,
         }}
       ></div>
     </div>

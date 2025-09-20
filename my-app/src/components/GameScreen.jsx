@@ -18,23 +18,28 @@ const GameScreen = ({
   onTimeUp,
   onSkipWord,
   onQuit,
+  paused = false,
+  isTransitioning = false,
+  currentRound = 0,
 }) => {
   const CAPTURE_INTERVAL = 4; // seconds
 
   return (
-    <div className="game-screen">
+    <div className={"game-screen" + (isTransitioning ? " transitioning" : "")}>
       <div className="game-header">
         <WordPrompt word={currentWord} />
-        {/* --- UPDATED to pass the new props to the Timer --- */}
-        <Timer duration={duration} onTimeUp={onTimeUp} />
+        {/* Render Timer always (so it can listen to round changes) but hide when paused */}
+        <div style={{ visibility: paused ? 'hidden' : 'visible', width: 300 }}>
+          <Timer duration={duration} onTimeUp={onTimeUp} paused={paused} round={currentRound} />
+        </div>
       </div>
 
       {/* Webcam + Countdown side by side */}
       <div className="webcam-countdown-container">
         <div className="webcam-container">
-          <WebcamFeed onCapture={onCapture} />
+          <WebcamFeed onCapture={onCapture} paused={paused} />
         </div>
-        <CountdownTimer interval={CAPTURE_INTERVAL} onCapture={onCapture} />
+        <CountdownTimer interval={CAPTURE_INTERVAL} onCapture={onCapture} paused={paused} />
       </div>
 
       <AIGuessDisplay guess={aiGuess} />
