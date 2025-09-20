@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./App.css";
 
 import StartScreen from "./components/StartScreen";
@@ -16,14 +16,23 @@ function App() {
   const [currentWord, setCurrentWord] = useState("");
   const [choices, setChoices] = useState([]);
   const [aiGuess, setAiGuess] = useState("");
+  const [resultConfirmed, setResultConfirmed] = useState(null); // 'success', 'fail', null
   const lastSentTime = useRef(0);
 
-  // This effect checks for the win condition whenever the AI makes a new guess.
+  // Automatically confirm result n seconds after AI guess is updated
   useEffect(() => {
-    if (gameState === "playing" && aiGuess && currentWord) {
-      if (aiGuess.toLowerCase().includes(currentWord.toLowerCase())) {
-        setGameState("won");
-      }
+    if (aiGuess && gameState === "playing") {
+      const timer = setTimeout(() => {
+        if (aiGuess.toLowerCase().includes(currentWord.toLowerCase())) {
+          setResultConfirmed("success");
+          setGameState("won");
+        } else {
+          setResultConfirmed("fail");
+          // continue game or handle fail logic
+        }
+      }, 1000); // 1 second display
+
+      return () => clearTimeout(timer); // cancel previous timer if aiGuess changes
     }
   }, [aiGuess, currentWord, gameState]);
 
@@ -52,7 +61,7 @@ function App() {
     setGameState("start");
   };
 
-  const handleSendFrame = async (imageBlob) => {
+  const handleSendFrame = useCallback(async (imageBlob) => {
     if (!imageBlob) return;
 
     const now = Date.now();
@@ -67,7 +76,18 @@ function App() {
     } catch (error) {
       console.error("Error sending frame to backend:", error);
     }
-  };
+  }, []);
+
+  const handleSkipWord = useCallback(async () => {
+  try {
+    const data = await getRandomWord();
+    setCurrentWord(data.word);
+    setChoices(data.choices);
+    setResultConfirmed(null);
+  } catch (err) {
+    console.error("Error fetching new word:", err);
+  }
+});
 
   const handleQuitGame = () => {
     setGameState("start");
@@ -84,14 +104,12 @@ function App() {
 
       {gameState === "playing" && (
         <GameScreen
-          word={currentWord}
+          currentWord={currentWord}
           aiGuess={aiGuess}
           // onCapture={handleSendFrame}
-          // --- CHANGED (for Option 2) ---
-          // Pass the duration and the callback function instead of timeLeft.
           duration={GAME_DURATION}
           onTimeUp={handleTimeUp}
-          onSkipWord={handleStartGame}
+          onSkipWord={handleSkipWord}
           onQuit={handleQuitGame}
         />
       )}
