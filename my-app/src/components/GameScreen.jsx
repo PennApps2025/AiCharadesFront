@@ -4,9 +4,11 @@ import WordPrompt from "./WordPrompt";
 import WebcamFeed from "./WebcamFeed";
 import AIGuessDisplay from "./AIGuessDisplay";
 import Timer from "./Timer";
+import CountdownTimer from "./CountdownTimer";
 
 // --- UPDATED to accept 'duration' and 'onTimeUp' ---
 const GameScreen = ({ word, aiGuess, onCapture, duration, onTimeUp, onSkipWord, onQuit }) => {
+  const CAPTURE_INTERVAL = 4; // seconds
   return (
     <div className="game-screen">
       <div className="game-header">
@@ -14,6 +16,9 @@ const GameScreen = ({ word, aiGuess, onCapture, duration, onTimeUp, onSkipWord, 
         {/* --- UPDATED to pass the new props to the Timer --- */}
         <Timer duration={duration} onTimeUp={onTimeUp} />
       </div>
+
+      {/* Countdown display */}
+      <CountdownTimer interval={CAPTURE_INTERVAL} />
 
       <div className="webcam-container">
         <WebcamFeed onCapture={onCapture} />
