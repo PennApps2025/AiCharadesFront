@@ -21,18 +21,22 @@
 
 /* --- Row for Webcam + Countdown --- */
 .webcam-countdown-container {
+  /* Use a relative container so the countdown can be absolutely positioned
+     to the side of the centered webcam on wide screens. */
+  position: relative;
   display: flex;
   align-items: center; /* vertically align webcam and countdown */
-  justify-content: flex-start; /* align row to start */
-  gap: 40px; /* space between webcam and countdown */
+  justify-content: center; /* center the webcam horizontally */
+  gap: 60px; /* space between webcam and countdown when not absolutely positioned */
   width: 100%;
-  max-width: 800px;
+  max-width: 900px;
   margin: 0 auto; /* centers the row horizontally */
 }
 
 /* --- Webcam Container --- */
 .webcam-container {
-  flex: 0 0 500px; /* fixed width for webcam */
+  /* Fixed-size webcam box centered in the page */
+  width: 500px;
   background-color: #000;
   border-radius: 16px;
   overflow: hidden;
@@ -50,7 +54,10 @@
 
 /* --- Countdown Timer Arcade Style --- */
 .countdown-arcade {
-  flex: 0 0 180px; /* fixed width so countdown stays to the side */
+  /* Fixed-size countdown that visually sits to the right of the centered
+     webcam via absolute positioning on wide screens. On small screens this
+     falls back to normal document flow (see media query below). */
+  width: 220px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -60,7 +67,14 @@
   border-radius: 16px;
   padding: 15px;
   box-shadow: 0 0 20px #4f46e5, 0 0 40px #22c55e, 0 0 60px #ff6b6b;
-  margin-left: 20px; /* optional spacing from webcam */
+  /* Position to the right of the centered webcam. Uses the webcam half-width
+    (250px) + a horizontal gap (60px). This relies on the webcam container
+    width staying at 500px; if you change the webcam width update the calc
+    below. */
+  position: absolute;
+  left: calc(50% + 250px + 60px);
+  top: 30%;
+  transform: translateY(-50%);
 }
 
 /* Countdown Text */
@@ -85,17 +99,11 @@
 /* Neon Pulse Animation */
 @keyframes neonPulse {
   from {
-    text-shadow:
-      0 0 5px #22c55e,
-      0 0 10px #22c55e,
-      0 0 20px #22c55e,
+    text-shadow: 0 0 5px #22c55e, 0 0 10px #22c55e, 0 0 20px #22c55e,
       0 0 30px #4f46e5;
   }
   to {
-    text-shadow:
-      0 0 10px #22c55e,
-      0 0 20px #22c55e,
-      0 0 30px #22c55e,
+    text-shadow: 0 0 10px #22c55e, 0 0 20px #22c55e, 0 0 30px #22c55e,
       0 0 40px #7c3aed;
   }
 }
@@ -121,10 +129,10 @@
 .control-button {
   background: linear-gradient(to right, #4f46e5, #7c3aed);
   color: #fff;
-  padding: 10px 20px;
+  padding: 15px 30px;
   border-radius: 12px;
   font-family: "Press Start 2P", monospace;
-  font-size: 0.85rem;
+  font-size: 1.3rem;
   cursor: pointer;
   border: none;
   box-shadow: 0 0 10px #4f46e5;
@@ -144,11 +152,13 @@
   }
 
   .webcam-container {
-    flex: 0 0 90vw;
+    width: 90vw;
   }
 
   .countdown-arcade {
-    flex: 0 0 160px;
+    width: 160px;
+    position: static; /* cancel absolute positioning on small screens */
+    transform: none;
     margin-left: 0;
     margin-top: 15px; /* space when stacked */
   }

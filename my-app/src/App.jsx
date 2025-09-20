@@ -7,7 +7,6 @@ import WinCondition from "./components/WinCondition";
 
 import { getRandomWord, sendFrameToBackend } from "./api/gameApi";
 
-
 // Define the game duration in seconds.
 const GAME_DURATION = 1000;
 

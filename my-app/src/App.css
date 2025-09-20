@@ -92,7 +92,6 @@ body {
   padding: 8px 12px;
   background-color: #2a2a2a;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(102, 217, 239, 0.5);
 }
 
 /* --- Webcam Feed Container --- */
@@ -207,47 +206,6 @@ body {
   margin: 0 auto 0 auto;
 }
 
-/* --- In-Game Controls Container --- */
-.game-controls {
-  display: flex;
-  justify-content: center;
-  gap: 25px; /* Adds space between the buttons */
-  margin-top: 10px;
-}
-
-/* --- Base Style for In-Game Control Buttons --- */
-.control-button {
-  padding: 10px 30px;
-  font-size: 1.5rem;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
-  color: white;
-}
-
-.control-button:hover {
-  transform: translateY(-2px); /* Lifts the button slightly on hover */
-}
-
-/* --- Specific Style for the Skip Button --- */
-.skip-button {
-  background-color: #007bff; /* A nice, clear blue */
-}
-
-.skip-button:hover {
-  background-color: #0056b3;
-}
-
-/* --- Specific Style for the Quit Button --- */
-.quit-button {
-  background-color: #dc3545; /* A standard "danger" red */
-}
-
-.quit-button:hover {
-  background-color: #c82333;
-}
 /* Countdown Arcade Container */
 .countdown-arcade {
   display: flex;
@@ -269,10 +227,7 @@ body {
   font-size: 1.2rem;
   font-weight: bold;
   color: #22c55e; /* neon green for countdown */
-  text-shadow:
-    0 0 5px #22c55e,
-    0 0 10px #22c55e,
-    0 0 20px #22c55e;
+  text-shadow: 0 0 5px #22c55e, 0 0 10px #22c55e, 0 0 20px #22c55e;
   margin: 0 0 5px 0;
   animation: neonPulse 1.5s infinite alternate;
 }
@@ -282,26 +237,17 @@ body {
   font-family: "Press Start 2P", monospace;
   font-size: 1rem;
   color: #ff6b6b; /* coral red */
-  text-shadow:
-    0 0 5px #ff6b6b,
-    0 0 10px #ff6b6b,
-    0 0 20px #ff6b6b;
+  text-shadow: 0 0 5px #ff6b6b, 0 0 10px #ff6b6b, 0 0 20px #ff6b6b;
 }
 
 /* Neon Pulse Animation */
 @keyframes neonPulse {
   from {
-    text-shadow:
-      0 0 5px #22c55e,
-      0 0 10px #22c55e,
-      0 0 20px #22c55e,
+    text-shadow: 0 0 5px #22c55e, 0 0 10px #22c55e, 0 0 20px #22c55e,
       0 0 30px #4f46e5;
   }
   to {
-    text-shadow:
-      0 0 10px #22c55e,
-      0 0 20px #22c55e,
-      0 0 30px #22c55e,
+    text-shadow: 0 0 10px #22c55e, 0 0 20px #22c55e, 0 0 30px #22c55e,
       0 0 40px #7c3aed;
   }
 }
