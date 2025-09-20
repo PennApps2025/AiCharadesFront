@@ -7,7 +7,15 @@ import Timer from "./Timer";
 import CountdownTimer from "./CountdownTimer";
 
 // --- UPDATED to accept 'duration' and 'onTimeUp' ---
-const GameScreen = ({ word, aiGuess, onCapture, duration, onTimeUp, onSkipWord, onQuit }) => {
+const GameScreen = ({
+  word,
+  aiGuess,
+  onCapture,
+  duration,
+  onTimeUp,
+  onSkipWord,
+  onQuit,
+}) => {
   const CAPTURE_INTERVAL = 4; // seconds
   return (
     <div className="game-screen">
@@ -28,8 +36,12 @@ const GameScreen = ({ word, aiGuess, onCapture, duration, onTimeUp, onSkipWord, 
       <AIGuessDisplay guess={aiGuess} />
 
       <div className="game-controls">
-        <button onClick={onSkipWord}>Skip Word</button>
-        <button onClick={onQuit}>Quit</button>
+        <button className="control-button skip-button" onClick={onSkipWord}>
+          Skip Word
+        </button>
+        <button className="control-button quit-button" onClick={onQuit}>
+          Quit Game
+        </button>
       </div>
     </div>
   );
