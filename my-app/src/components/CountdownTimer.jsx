@@ -1,25 +1,37 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
-function CountdownTimer({ interval }) {
+function CountdownTimer({ interval, onCapture }) {
   const [timeLeft, setTimeLeft] = useState(interval);
+  const [captureCount, setCaptureCount] = useState(0);
+
+  // Ref to track if we've captured for this tick
+  const capturedRef = useRef(false);
 
   useEffect(() => {
-    // decrease countdown every second
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
-        if (prev <= 1) {
-          return interval; // reset countdown
+        if (prev <= 0) {
+          if (!capturedRef.current) {
+            // Trigger capture exactly once
+            onCapture?.();
+            setCaptureCount((c) => c + 1);
+            capturedRef.current = true;
+          }
+          return interval; // reset timer
+        } else {
+          capturedRef.current = false; // reset capture flag
+          return prev - 1;
         }
-        return prev - 1;
       });
     }, 1000);
 
-    return () => clearInterval(timer); // cleanup
-  }, [interval]);
+    return () => clearInterval(timer);
+  }, [interval, onCapture]);
 
   return (
-    <div className="countdown">
-      <p>Next capture in: {timeLeft}s</p>
+    <div className="countdown-arcade">
+      <p className="countdown-text">Next capture in: {timeLeft}s</p>
+      <p className="capture-count">Captures: {captureCount}</p>
     </div>
   );
 }
