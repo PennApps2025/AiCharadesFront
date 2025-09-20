@@ -1,0 +1,168 @@
+/* --- Game Screen Main Container --- */
+.game-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 15px;
+  height: 90vh; /* fill the viewport */
+  padding: 10px;
+}
+
+/* --- Game Header (Word Prompt + Timer) --- */
+.game-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 800px;
+  margin-bottom: 10px;
+}
+
+/* --- Row for Webcam + Countdown --- */
+.webcam-countdown-container {
+  display: flex;
+  align-items: center; /* vertically align webcam and countdown */
+  justify-content: flex-start; /* align row to start */
+  gap: 40px; /* space between webcam and countdown */
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto; /* centers the row horizontally */
+}
+
+/* --- Webcam Container --- */
+.webcam-container {
+  flex: 0 0 500px; /* fixed width for webcam */
+  background-color: #000;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 0 25px rgba(79, 70, 229, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center; /* centers video inside container */
+}
+
+.webcam-container:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 35px rgba(79, 70, 229, 0.8);
+}
+
+/* --- Countdown Timer Arcade Style --- */
+.countdown-arcade {
+  flex: 0 0 180px; /* fixed width so countdown stays to the side */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1e1e2f, #28293d);
+  border: 3px solid #7c3aed;
+  border-radius: 16px;
+  padding: 15px;
+  box-shadow: 0 0 20px #4f46e5, 0 0 40px #22c55e, 0 0 60px #ff6b6b;
+  margin-left: 20px; /* optional spacing from webcam */
+}
+
+/* Countdown Text */
+.countdown-text {
+  font-family: "Press Start 2P", monospace;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #22c55e;
+  text-shadow: 0 0 5px #22c55e, 0 0 10px #22c55e, 0 0 20px #22c55e;
+  margin-bottom: 5px;
+  animation: neonPulse 1.5s infinite alternate;
+}
+
+/* Capture Count */
+.capture-count {
+  font-family: "Press Start 2P", monospace;
+  font-size: 1rem;
+  color: #ff6b6b;
+  text-shadow: 0 0 5px #ff6b6b, 0 0 10px #ff6b6b, 0 0 20px #ff6b6b;
+}
+
+/* Neon Pulse Animation */
+@keyframes neonPulse {
+  from {
+    text-shadow:
+      0 0 5px #22c55e,
+      0 0 10px #22c55e,
+      0 0 20px #22c55e,
+      0 0 30px #4f46e5;
+  }
+  to {
+    text-shadow:
+      0 0 10px #22c55e,
+      0 0 20px #22c55e,
+      0 0 30px #22c55e,
+      0 0 40px #7c3aed;
+  }
+}
+
+/* --- AI Guess Styling --- */
+.ai-guess {
+  margin-top: 10px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 1.8rem;
+  font-weight: 400;
+  min-height: 2.5rem;
+  color: #22c55e;
+  text-shadow: 0 0 10px rgba(34, 197, 94, 0.7);
+}
+
+/* --- Game Controls (Skip/Quit buttons) --- */
+.game-controls {
+  display: flex;
+  gap: 15px;
+  margin-top: 10px;
+}
+
+.control-button {
+  background: linear-gradient(to right, #4f46e5, #7c3aed);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-family: "Press Start 2P", monospace;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 0 10px #4f46e5;
+  transition: all 0.2s ease-in-out;
+}
+
+.control-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #7c3aed;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 700px) {
+  .webcam-countdown-container {
+    flex-direction: column; /* stack vertically */
+    align-items: center;
+  }
+
+  .webcam-container {
+    flex: 0 0 90vw;
+  }
+
+  .countdown-arcade {
+    flex: 0 0 160px;
+    margin-left: 0;
+    margin-top: 15px; /* space when stacked */
+  }
+
+  .countdown-text {
+    font-size: 1rem;
+  }
+
+  .capture-count {
+    font-size: 0.9rem;
+  }
+
+  .control-button {
+    font-size: 0.75rem;
+    padding: 8px 16px;
+  }
+}
