@@ -1,69 +1,97 @@
-import React, { useState, useEffect, useRef } from "react";
-import "./App.css"; // Import the new CSS file
+import React, { useState, useEffect } from "react";
+import axios from "react";
+import "./App.css";
 
-// A simple component for our main application
+import StartScreen from "./components/StartScreen";
+import GameScreen from "./components/GameScreen";
+import WinCondition from "./components/WinCondition";
+
+// A simple list of words for the hackathon. You can expand this list.
+const WORD_LIST = [
+  "dancing",
+  "waving",
+  "jumping",
+  "eating",
+  "sleeping",
+  "reading",
+  "driving",
+  "singing",
+];
+
 function App() {
-  const [gameState, setGameState] = useState("ready"); // 'ready', 'running', 'success'
-  const videoRef = useRef(null); // A reference to our <video> element
+  // 'start', 'playing', 'won'
+  const [gameState, setGameState] = useState("start");
+  const [currentWord, setCurrentWord] = useState("");
+  const [aiGuess, setAiGuess] = useState("");
 
-  const handleGameStart = () => {
-    setGameState("running");
-  };
-
-  // This effect handles the webcam logic
+  // Effect to check for the win condition whenever the AI makes a new guess.
   useEffect(() => {
-    if (gameState === "running") {
-      const startWebcam = async () => {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({
-            video: true,
-          });
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-          }
-        } catch (error) {
-          console.error("Error accessing webcam:", error);
-          setGameState("ready");
-        }
-      };
-      startWebcam();
-    } else {
-      if (videoRef.current && videoRef.current.srcObject) {
-        const stream = videoRef.current.srcObject;
-        const tracks = stream.getTracks();
-        tracks.forEach((track) => track.stop());
-        videoRef.current.srcObject = null;
+    if (gameState === "playing" && aiGuess && currentWord) {
+      // Simple win condition: check if the AI's guess includes the correct word.
+      if (aiGuess.toLowerCase().includes(currentWord.toLowerCase())) {
+        setGameState("won");
       }
     }
-  }, [gameState]);
+  }, [aiGuess, currentWord, gameState]);
 
-  if (gameState === "ready") {
-    return (
-      <div className="screen-container">
-        <h1 className="title">AI Charades</h1>
-        <p className="subtitle">
-          Let's see if the AI can guess what you're acting out!
-        </p>
-        <button className="button" onClick={handleGameStart}>
-          Game Play
-        </button>
-      </div>
-    );
-  }
+  // Function to select a random word and start the game.
+  const handleStartGame = () => {
+    const newWord = WORD_LIST[Math.floor(Math.random() * WORD_LIST.length)];
+    setCurrentWord(newWord);
+    setAiGuess(""); // Reset previous guess
+    setGameState("playing");
+  };
 
-  if (gameState === "running") {
-    return (
-      <div className="screen-container">
-        <div className="video-container">
-          <video ref={videoRef} autoPlay playsInline className="video" />
-        </div>
-      </div>
-    );
-  }
+  // Function to handle restarting the game after a win.
+  const handlePlayAgain = () => {
+    setGameState("start");
+  };
+
+  // Function passed to the WebcamFeed component to send frames to the backend.
+  const handleSendFrame = async (imageBlob) => {
+    if (!imageBlob) return;
+
+    const formData = new FormData();
+    // The backend expects a 'file' and the 'word' for context.
+    formData.append("file", imageBlob, "capture.jpg");
+    formData.append("word", currentWord);
+
+    try {
+      // Send the image to your FastAPI backend.
+      const response = await axios.post(
+        "http://localhost:8000/guess",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      // Update the state with the AI's guess.
+      setAiGuess(response.data.guess);
+    } catch (error) {
+      console.error("Error sending frame to backend:", error);
+      // Optionally, set an error message to display to the user.
+    }
+  };
 
   return (
-    <div className="screen-container">
-      <p>Loading...</p>
+    <div className="App-container">
+      <h1>AI Charades 🤖💃</h1>
+
+      {gameState === "start" && <StartScreen onStartGame={handleStartGame} />}
+
+      {gameState === "playing" && (
+        <GameScreen
+          word={currentWord}
+          aiGuess={aiGuess}
+          onCapture={handleSendFrame}
+        />
+      )}
+
+      {gameState === "won" && (
+        <WinCondition word={currentWord} onPlayAgain={handlePlayAgain} />
+      )}
     </div>
   );
 }
