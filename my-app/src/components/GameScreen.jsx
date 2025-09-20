@@ -13,7 +13,7 @@ import AIGuessDisplay from "./AIGuessDisplay";
  * @param {string} props.aiGuess - The AI's current guess.
  * @param {function} props.onCapture - The function to call when a frame is captured.
  */
-const GameScreen = ({ word, aiGuess, onCapture }) => {
+const GameScreen = ({ word, aiGuess, onCapture, onSkipWord, onQuit }) => {
   return (
     <div className="game-screen">
       {/* Component to display the word to the user */}
@@ -26,6 +26,11 @@ const GameScreen = ({ word, aiGuess, onCapture }) => {
 
       {/* Component to display what the AI is guessing */}
       <AIGuessDisplay guess={aiGuess} />
+
+      <div className="game-controls">
+        <button onClick={onSkipWord}>Skip Word</button>
+        <button onClick={onQuit}>Quit</button>
+      </div>
     </div>
   );
 };
