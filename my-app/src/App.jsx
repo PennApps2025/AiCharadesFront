@@ -9,7 +9,7 @@ import { getRandomWord, sendFrameToBackend } from "./api/gameApi";
 
 
 // Define the game duration in seconds.
-const GAME_DURATION = 20;
+const GAME_DURATION = 1000;
 
 function App() {
   const [gameState, setGameState] = useState("start"); // 'start', 'playing', 'won'
@@ -78,7 +78,7 @@ function App() {
 
   return (
     <div className="App-container">
-      <h1>AI Charades 🤖💃</h1>
+      {gameState === "start" && <h1>AI Charades</h1>}
 
       {gameState === "start" && <StartScreen onStartGame={handleStartGame} />}
 
@@ -86,7 +86,7 @@ function App() {
         <GameScreen
           word={currentWord}
           aiGuess={aiGuess}
-          onCapture={handleSendFrame}
+          // onCapture={handleSendFrame}
           // --- CHANGED (for Option 2) ---
           // Pass the duration and the callback function instead of timeLeft.
           duration={GAME_DURATION}
