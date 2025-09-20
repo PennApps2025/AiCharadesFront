@@ -9,7 +9,7 @@ import { getRandomWord, sendFrameToBackend } from "./api/gameApi";
 
 
 // Define the game duration in seconds.
-const GAME_DURATION = 10;
+const GAME_DURATION = 20;
 
 function App() {
   const [gameState, setGameState] = useState("start"); // 'start', 'playing', 'won'
@@ -49,14 +49,14 @@ function App() {
     console.log("Time is up!");
     // You can create a separate "Time's Up" screen later.
     // For now, we'll reuse the 'won' screen.
-    setGameState("won");
+    setGameState("start");
   };
 
   const handleSendFrame = async (imageBlob) => {
     if (!imageBlob) return;
 
     const now = Date.now();
-    if (now - lastSentTime < 5000) {
+    if (now - lastSentTime.current < 4000) {
       return;
     }
     lastSentTime.current = now;
