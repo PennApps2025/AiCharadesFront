@@ -1,79 +1,75 @@
-import React, { useRef, useEffect } from "react";
+// WebcamFeed.jsx
+import React, { useRef, useEffect, memo } from "react";
 
-// This is the functional code for the WebcamFeed component.
-const WebcamFeed = ({ onCapture }) => {
+/**
+ * WebcamFeed component
+ * - Captures video from user's webcam
+ * - Sends frames to the backend every 2 seconds
+ * - Memoized to prevent unnecessary re-renders and blinking
+ */
+const WebcamFeed = memo(({ onCapture }) => {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
 
-  // This effect runs once when the component mounts to start the camera.
   useEffect(() => {
-    // An async function to get access to the user's camera.
     async function getCamera() {
       try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
-        });
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        if (videoRef.current) videoRef.current.srcObject = stream;
       } catch (err) {
         console.error("Error accessing webcam:", err);
-        // You could display an error message to the user here.
       }
     }
 
     getCamera();
 
-    // Setup the interval to capture frames every 2 seconds.
+    // Capture frames every n seconds
     const intervalId = setInterval(() => {
-      if (videoRef.current && onCapture) {
-        // Draw the current video frame to the hidden canvas.
-        const video = videoRef.current;
-        const canvas = canvasRef.current;
+      if (!videoRef.current || !onCapture) return;
 
-        if (canvas) {
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          const ctx = canvas.getContext("2d");
-          ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
 
-          // Convert the canvas image to a Blob and send it.
-          canvas.toBlob((blob) => {
-            onCapture(blob);
-          }, "image/jpeg");
-        }
+      if (canvas) {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        const ctx = canvas.getContext("2d");
+        ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+
+        // Convert canvas to Blob and send
+        canvas.toBlob((blob) => {
+          if (blob) onCapture(blob);
+        }, "image/jpeg");
       }
-    }, 2000); // 2000 milliseconds = 2 seconds
+    }, 4000); // n000 milliseconds = n seconds
 
-    // Cleanup function: This runs when the component is unmounted.
+    // Cleanup on unmount
     return () => {
-      clearInterval(intervalId); // Stop capturing frames.
-      if (videoRef.current && videoRef.current.srcObject) {
-        // Stop all video tracks to turn off the camera light.
+      clearInterval(intervalId);
+      if (videoRef.current?.srcObject) {
         videoRef.current.srcObject.getTracks().forEach((track) => track.stop());
       }
     };
-  }, [onCapture]); // Re-run the effect if onCapture changes.
+  }, [onCapture]);
 
   return (
-    <div className="webcam-display">
+    <div className="webcam-container">
       <video
         ref={videoRef}
-        autoPlay // Important: makes the video play automatically.
-        playsInline // Important: for mobile browsers.
-        muted // Important: browsers often block autoplaying video with sound.
+        autoPlay
+        playsInline
+        muted
         style={{
           width: "100%",
           height: "auto",
           borderRadius: "8px",
           objectFit: "cover",
-          backgroundColor: "#000"
+          backgroundColor: "#000",
         }}
       />
-      {/* A hidden canvas used for capturing frames from the video. */}
       <canvas ref={canvasRef} style={{ display: "none" }} />
     </div>
   );
-};
+});
 
 export default WebcamFeed;

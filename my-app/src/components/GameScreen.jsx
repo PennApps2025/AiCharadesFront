@@ -8,7 +8,7 @@ import CountdownTimer from "./CountdownTimer";
 
 // --- UPDATED to accept 'duration' and 'onTimeUp' ---
 const GameScreen = ({
-  word,
+  currentWord,
   aiGuess,
   onCapture,
   duration,
@@ -20,7 +20,7 @@ const GameScreen = ({
   return (
     <div className="game-screen">
       <div className="game-header">
-        <WordPrompt word={word} />
+        <WordPrompt word={currentWord} />
         {/* --- UPDATED to pass the new props to the Timer --- */}
         <Timer duration={duration} onTimeUp={onTimeUp} />
       </div>

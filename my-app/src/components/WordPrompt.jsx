@@ -1,13 +1,13 @@
-import React from "react";
+import React, { memo } from "react";
 
-const WordPrompt = ({ word }) => {
+const WordPrompt = memo(({ word }) => {
   return (
     <div className="word-prompt">
       <h1>
-        Your word is: <span className="word">{word}</span>
+        PROMPT: <span className="word">{word}</span>
       </h1>
     </div>
   );
-};
+});
 
 export default WordPrompt;
