@@ -4,7 +4,7 @@ body {
   padding: 20px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
     Arial, sans-serif;
-  background-color: #121212;
+  background: linear-gradient(to bottom right, #1e1e2f, #28293d);
   color: #e0e0e0;
   display: flex;
   justify-content: center;
@@ -21,12 +21,12 @@ body {
   font-size: 2.8rem;
   color: #ffffff;
   margin-bottom: 40px;
-  text-shadow: 0 0 10px rgba(76, 175, 80, 0.4);
+  text-shadow: 0 0 15px rgba(79, 70, 229, 0.6);
 }
 
 /* --- Reusable Button Style --- */
 .start-button {
-  background-color: #4caf50; /* A nice green */
+  background: linear-gradient(to right, #4f46e5, #7c3aed);
   color: white;
   padding: 15px 32px;
   text-align: center;
@@ -35,13 +35,14 @@ body {
   margin-top: 20px;
   cursor: pointer;
   border: none;
-  border-radius: 8px;
-  transition: background-color 0.3s, transform 0.2s;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.5);
+  transition: all 0.2s ease-in-out;
 }
 
 .start-button:hover {
-  background-color: #45a049;
-  transform: translateY(-2px);
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.7);
 }
 
 /* --- Start and Win Screen Containers --- */
@@ -50,13 +51,16 @@ body {
   margin-top: 50px;
   padding: 30px;
   background-color: #1e1e1e;
-  border-radius: 12px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
+/* Start/Win Screen Titles */
 .start-screen h2,
 .win-screen h2 {
   font-size: 2rem;
-  color: #4caf50;
+  color: #4f46e5; /* Vibrant blue */
+  margin-bottom: 15px;
 }
 
 /* --- Main Game Screen --- */
@@ -69,20 +73,23 @@ body {
 
 /* --- Word Prompt Styling --- */
 .word-prompt h1 {
-  font-size: 2.2rem;
-  font-weight: 300;
+  font-size: 2.5rem;
+  font-weight: 600;
   margin: 0;
   color: #ccc;
+  animation: pulse 1.2s infinite;
+  overflow: hidden;
 }
 
 .word-prompt .word {
-  font-weight: 600;
-  color: #66d9ef; /* A bright cyan color for the word */
+  font-weight: 700;
+  color: #66d9ef; /* Bright cyan */
   text-transform: uppercase;
   letter-spacing: 3px;
-  padding: 5px 10px;
+  padding: 8px 12px;
   background-color: #2a2a2a;
-  border-radius: 6px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(102, 217, 239, 0.5);
 }
 
 /* --- Webcam Feed Container --- */
@@ -90,15 +97,77 @@ body {
   width: 100%;
   max-width: 640px;
   background-color: #000;
-  border-radius: 8px;
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 25px rgba(79, 70, 229, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.webcam-container:hover {
+  transform: scale(1.01);
+  box-shadow: 0 0 35px rgba(79, 70, 229, 0.8);
 }
 
 /* --- AI Guess Display --- */
 .ai-guess h2 {
   font-size: 1.8rem;
   font-weight: 400;
-  min-height: 2.5rem; /* Prevents layout shifting when text appears */
-  color: #e6db74; /* A warm yellow for the AI's guess */
+  min-height: 2.5rem;
+  color: #22c55e; /* Neon green */
+  text-shadow: 0 0 10px rgba(34, 197, 94, 0.7);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* --- Win Message Styling --- */
+.win-message {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #22c55e;
+  text-shadow: 0 0 15px rgba(34, 197, 94, 0.7);
+  margin-bottom: 20px;
+}
+
+/* --- Animations --- */
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-pulse {
+  animation: pulse 1s infinite;
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 700px) {
+  .webcam-container {
+    width: 90vw;
+    height: auto;
+  }
+
+  .word-prompt h1 {
+    font-size: 2rem;
+  }
+
+  .word-prompt .word {
+    font-size: 1.2rem;
+    padding: 6px 10px;
+  }
+
+  .ai-guess h2 {
+    font-size: 1.5rem;
+  }
+
+  .start-button {
+    font-size: 1rem;
+    padding: 10px 24px;
+  }
 }
