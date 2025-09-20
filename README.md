@@ -1,6 +1,6 @@
 # 🎭 AI Charades - Frontend
 
-This is the **React frontend** for [AI Charades](#), a game where the player performs actions on webcam and an AI opponent tries to guess in real time.
+This is the **React frontend** for [AI Charades](#), a game where the player performs actions on webcam and an AI opponent tries to guess in real time. [Backend](https://github.com/PennApps2025/BackAiCharades)
 
 ---
 
@@ -26,7 +26,7 @@ This is the **React frontend** for [AI Charades](#), a game where the player per
 ### 1. Clone the Repository
 ```bash
 git clone https://github.com/PennApps2025/FrontAiCharades.git
-cd FrontAiCharades
+cd FrontAiCharades/my-app
 npm install
 npm start
 
@@ -36,10 +36,6 @@ Frontend runs at:
 This frontend expects the backend (FastAPI) to be running at:
 
 http://localhost:8000
-
-Update the API endpoint in your code if needed (inside App.jsx or your API service file):
-
-axios.post("http://localhost:8000/guess", formData);
 
 FrontAiCharades/
 ├── src/
