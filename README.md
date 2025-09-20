@@ -40,3 +40,16 @@ http://localhost:8000
 Update the API endpoint in your code if needed (inside App.jsx or your API service file):
 
 axios.post("http://localhost:8000/guess", formData);
+
+FrontAiCharades/
+├── src/
+│   ├── components/     # UI components (Webcam, Timer, AI Guess, etc.)
+│   ├── App.jsx         # Main app logic
+│   ├── App.css         # Global styling
+│   └── index.js        # Entry point
+├── public/             # Static assets
+└── package.json
+
+📜 License
+
+MIT License © 2025 PennApps2025 Team
