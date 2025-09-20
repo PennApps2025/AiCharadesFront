@@ -1,6 +1,7 @@
 # 🎭 AI Charades - Frontend
 
-This is the **React frontend** for [AI Charades](#), a game where the player performs actions on webcam and an AI opponent tries to guess in real time. 
+This is the React frontend for **AI Charades**, a game where the player performs actions on webcam and an AI opponent tries to guess in real time. 
+
 [See Backend](https://github.com/PennApps2025/BackAiCharades)
 
 ---
