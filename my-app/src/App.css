@@ -208,3 +208,45 @@ body {
   max-width: 640px;
   margin: 0 auto 20px auto;
 }
+
+/* --- In-Game Controls Container --- */
+.game-controls {
+  display: flex;
+  justify-content: center;
+  gap: 25px; /* Adds space between the buttons */
+  margin-top: 10px;
+}
+
+/* --- Base Style for In-Game Control Buttons --- */
+.control-button {
+  padding: 10px 30px;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  color: white;
+}
+
+.control-button:hover {
+  transform: translateY(-2px); /* Lifts the button slightly on hover */
+}
+
+/* --- Specific Style for the Skip Button --- */
+.skip-button {
+  background-color: #007bff; /* A nice, clear blue */
+}
+
+.skip-button:hover {
+  background-color: #0056b3;
+}
+
+/* --- Specific Style for the Quit Button --- */
+.quit-button {
+  background-color: #dc3545; /* A standard "danger" red */
+}
+
+.quit-button:hover {
+  background-color: #c82333;
+}
