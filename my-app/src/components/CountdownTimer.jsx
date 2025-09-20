@@ -30,8 +30,8 @@ function CountdownTimer({ interval, onCapture }) {
 
   return (
     <div className="countdown-arcade">
-      <p className="countdown-text">Next capture in: {timeLeft}s</p>
-      <p className="capture-count">Captures: {captureCount}</p>
+      <p className="countdown-text">Strike a pose in: {timeLeft}s</p>
+      <p className="capture-count">Total attemps: {captureCount}</p>
     </div>
   );
 }

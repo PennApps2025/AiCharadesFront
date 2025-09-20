@@ -1,12 +1,15 @@
 import React from "react";
 
+// Import your components
 import WordPrompt from "./WordPrompt";
 import WebcamFeed from "./WebcamFeed";
 import AIGuessDisplay from "./AIGuessDisplay";
 import Timer from "./Timer";
 import CountdownTimer from "./CountdownTimer";
 
-// --- UPDATED to accept 'duration' and 'onTimeUp' ---
+// Import the new CSS for layout and arcade theme
+import "../gameScreenLayout.css";
+
 const GameScreen = ({
   currentWord,
   aiGuess,
@@ -17,6 +20,7 @@ const GameScreen = ({
   onQuit,
 }) => {
   const CAPTURE_INTERVAL = 4; // seconds
+
   return (
     <div className="game-screen">
       <div className="game-header">
@@ -25,14 +29,14 @@ const GameScreen = ({
         <Timer duration={duration} onTimeUp={onTimeUp} />
       </div>
 
-      {/* Countdown display */}
-      <CountdownTimer interval={CAPTURE_INTERVAL} />
-
-      <div className="webcam-container">
-        <WebcamFeed onCapture={onCapture} />
+      {/* Webcam + Countdown side by side */}
+      <div className="webcam-countdown-container">
+        <div className="webcam-container">
+          <WebcamFeed onCapture={onCapture} />
+        </div>
+        <CountdownTimer interval={CAPTURE_INTERVAL} onCapture={onCapture} />
       </div>
 
-      {/* Component to display what the AI is guessing */}
       <AIGuessDisplay guess={aiGuess} />
 
       <div className="game-controls">
