@@ -57,7 +57,7 @@
   /* Fixed-size countdown that visually sits to the right of the centered
      webcam via absolute positioning on wide screens. On small screens this
      falls back to normal document flow (see media query below). */
-  width: 220px;
+  width: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -76,6 +76,43 @@
   left: calc(50% + 250px + 60px);
   top: 30%;
   transform: translateY(-50%);
+  animation: pulse 1.2s infinite;
+}
+
+/* --- Robot image positioned to the left of the centered webcam --- */
+.robot-block {
+  /* Place the block left of the centered webcam. Calculation:
+     center (50%) - half webcam (250px) - gap (120px) - half robot width (110px) */
+  position: absolute;
+  left: calc(20% - 250px - 120px - 110px);
+  top: 50%;
+  transform: translateY(10%);
+  width: 220px; /* fixed width so text wraps within this block */
+  height: 340px; /* room for text above robot; tweak as needed */
+}
+
+/* robot image anchored to bottom of the block so it doesn't move when text grows */
+.robot-image {
+  width: 300px;
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* AI guess positioned above the robot and constrained to block width */
+.robot-block .ai-guess {
+  position: absolute;
+  bottom: calc(320px + 12px); /* robot height (220px) + gap */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  text-align: center;
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* Countdown Text */
@@ -162,5 +199,27 @@
   .control-button {
     font-size: 0.75rem;
     padding: 8px 16px;
+  }
+
+  .robot-image {
+    width: 160px;
+    position: static; /* flow with content on small screens */
+    transform: none;
+    margin-bottom: 12px;
+  }
+  .robot-block {
+    position: static;
+    width: 160px;
+    height: auto;
+    transform: none;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .robot-block .ai-guess {
+    position: static;
+    width: 100%;
+    margin-bottom: 8px;
   }
 }

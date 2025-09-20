@@ -6,6 +6,7 @@ import WebcamFeed from "./WebcamFeed";
 import AIGuessDisplay from "./AIGuessDisplay";
 import Timer from "./Timer";
 import CountdownTimer from "./CountdownTimer";
+import robotImg from "../../resources/robot.gif";
 
 // Import the new CSS for layout and arcade theme
 import "../gameScreenLayout.css";
@@ -31,13 +32,18 @@ const GameScreen = ({
 
       {/* Webcam + Countdown side by side */}
       <div className="webcam-countdown-container">
+        {/* Robot block (image + AI guess above it) placed to the left of the centered webcam */}
+        <div className="robot-block">
+          <AIGuessDisplay guess={aiGuess} />
+          <img src={robotImg} alt="robot" className="robot-image" />
+        </div>
+
         <div className="webcam-container">
           <WebcamFeed onCapture={onCapture} />
         </div>
+
         <CountdownTimer interval={CAPTURE_INTERVAL} onCapture={onCapture} />
       </div>
-
-      <AIGuessDisplay guess={aiGuess} />
 
       <div className="game-controls">
         <button className="control-button skip-button" onClick={onSkipWord}>

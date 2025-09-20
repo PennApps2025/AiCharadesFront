@@ -10,7 +10,9 @@ body {
 }
 
 /* Ensure padding/border are included in width calculations to avoid overflow */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -99,7 +101,7 @@ body {
   padding: 8px 12px;
   background-color: #2a2a2a;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(102, 217, 239, 0.5);
+  /* box-shadow: 10px 10px 10px rgba(102, 217, 239, 0.5); */
   display: inline-block; /* allow width/scroll measurements */
   white-space: nowrap; /* keep in a single line while we shrink */
 }
