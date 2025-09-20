@@ -125,17 +125,6 @@ body {
   margin-bottom: 20px;
 }
 
-.side-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  background-color: #1e1e1e;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-  height: fit-content; /* Content only */
-}
-
 /* --- Animations --- */
 @keyframes pulse {
   0%,
