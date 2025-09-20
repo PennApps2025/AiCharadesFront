@@ -2,7 +2,7 @@ import React from "react";
 
 import WordPrompt from "./WordPrompt";
 import WebcamFeed from "./WebcamFeed";
-import AIGessDisplay from "./AIGuessDisplay";
+import AIGuessDisplay from "./AIGuessDisplay";
 import Timer from "./Timer";
 
 // --- UPDATED to accept 'duration' and 'onTimeUp' ---

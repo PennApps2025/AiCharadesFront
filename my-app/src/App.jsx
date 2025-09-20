@@ -52,15 +52,6 @@ function App() {
     setGameState("won");
   };
 
-  // This function is passed down to the Timer component.
-  // The Timer component will call this function when it reaches zero.
-  const handleTimeUp = () => {
-    console.log("Time is up!");
-    // You can create a separate "Time's Up" screen later.
-    // For now, we'll reuse the 'won' screen.
-    setGameState("won");
-  };
-
   const handleSendFrame = async (imageBlob) => {
     if (!imageBlob) return;
 
