@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import "./App.css";
 
+// Import background music
+import bgMusic from "../resources/background-music.mp3";
+
 import StartScreen from "./components/StartScreen";
 import GameScreen from "./components/GameScreen";
 import EndScreen from "./components/EndScreen";
@@ -16,6 +19,30 @@ function App() {
   const [gameState, setGameState] = useState("start"); // 'start', 'playing', 'end'
   const [currentWord, setCurrentWord] = useState("");
   const [choices, setChoices] = useState([]);
+  const [isMuted, setIsMuted] = useState(false);
+  const audioRef = useRef(new Audio(bgMusic));
+
+  // Audio setup
+  useEffect(() => {
+    const audio = audioRef.current;
+    audio.loop = true;
+    audio.volume = 0.5;
+
+    const handleStart = () => {
+      audio.play().catch(error => {
+        console.log("Audio autoplay failed:", error);
+      });
+    };
+
+    // Start playing when user interacts with the page
+    document.addEventListener('click', handleStart, { once: true });
+
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+      document.removeEventListener('click', handleStart);
+    };
+  }, []);
   // store full backend response: { guess, result, response }
   const [aiResponse, setAiResponse] = useState(null);
   const [aiResponseKey, setAiResponseKey] = useState(0);
@@ -170,8 +197,24 @@ function App() {
     setGameState("end");
   };
 
+  // Toggle mute/unmute
+  const toggleMute = () => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.muted = !audio.muted;
+      setIsMuted(!isMuted);
+    }
+  };
+
   return (
     <div className="App-container">
+      <button 
+        className="sound-toggle"
+        onClick={toggleMute}
+        aria-label={isMuted ? "Unmute" : "Mute"}
+      >
+        {isMuted ? "🔇" : "🔊"}
+      </button>
       {gameState === "start" && <h1>AI Charades</h1>}
 
       {gameState === "start" && <StartScreen onStartGame={handleStartGame} onShowLeaderboard={handleShowLeaderboard} />}
