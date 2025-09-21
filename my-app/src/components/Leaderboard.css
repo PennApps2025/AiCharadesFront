@@ -12,6 +12,9 @@
   color: #ffffff;
   padding: 2rem;
   z-index: 1000;
+  background-image: url("../resources/darkbackground.jpg"); /* This is being applied... */
+  background-size: cover;
+  background-position: center;
 }
 
 .leaderboard-title {
@@ -30,7 +33,7 @@
   padding: 0;
   width: 100%;
   max-width: 500px;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.7);
   border-radius: 15px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
@@ -79,7 +82,9 @@
   text-shadow: 0 0 10px rgba(102, 217, 255, 0.3);
 }
 
-.no-scores, .loading-message, .error-message {
+.no-scores,
+.loading-message,
+.error-message {
   text-align: center;
   padding: 2rem;
   color: #a0aec0;
@@ -119,7 +124,8 @@
 }
 
 @keyframes leaderTitlePulse {
-  0%, 100% {
+  0%,
+  100% {
     text-shadow: 0 0 15px rgba(79, 70, 229, 0.4);
   }
   50% {

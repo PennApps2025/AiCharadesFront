@@ -10,6 +10,9 @@
   background: linear-gradient(135deg, #1a1a2e, #16213e);
   z-index: 1000;
   perspective: 1000px;
+  background-image: url("../resources/darkbackground.jpg"); /* This is being applied... */
+  background-size: cover;
+  background-position: center;
 }
 
 .end-screen-content {
@@ -20,8 +23,7 @@
   text-align: center;
   max-width: 800px;
   width: 90%;
-  box-shadow: 0 0 30px rgba(66, 135, 245, 0.2),
-              0 0 60px rgba(66, 135, 245, 0.1);
+  box-shadow: 0 0 30px rgba(66, 135, 245, 0.2), 0 0 60px rgba(66, 135, 245, 0.1);
   transform: translateY(30px);
   opacity: 0;
   transition: all 0.5s ease-out;
@@ -127,7 +129,7 @@
   margin-top: 2rem;
   flex-wrap: wrap;
   width: 100%;
-  max-width: 300px;  /* 약간 줄임 */
+  max-width: 300px; /* 약간 줄임 */
   margin-left: auto;
   margin-right: auto;
 }
