@@ -192,6 +192,7 @@ function App() {
           onQuit={handleQuitGame}
           paused={false}
           startSignal={gameStartKey}
+          score={score}
         />
       )}
       {gameState === "end" && (

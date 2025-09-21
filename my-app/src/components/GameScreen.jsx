@@ -23,6 +23,7 @@ const GameScreen = ({
   isTransitioning = false,
   startSignal = 0,
   resetSignal = null,
+  score = 0,
 }) => {
   const CAPTURE_INTERVAL = 3; // seconds
 
@@ -63,6 +64,7 @@ const GameScreen = ({
           onCapture={onCapture}
           paused={paused}
           resetSignal={resetSignal}
+          score={score}
         />
       </div>
 
