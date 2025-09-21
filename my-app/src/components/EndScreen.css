@@ -126,6 +126,10 @@
   gap: 2rem;
   margin-top: 2rem;
   flex-wrap: wrap;
+  width: 100%;
+  max-width: 300px;  /* 약간 줄임 */
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .arcade-button {
@@ -142,10 +146,21 @@
   overflow: hidden;
 }
 
+.arcade-button.initial-choice {
+  padding: 15px 20px;
+  min-width: 140px;
+}
+
 .yes-button {
   background: linear-gradient(45deg, #00ff88, #00cc6f);
   color: #ffffff;
   box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+}
+
+.leaderboard-button {
+  background: linear-gradient(45deg, #4f46e5, #7c3aed);
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(79, 70, 229, 0.3);
 }
 
 .no-button {
@@ -163,9 +178,60 @@
   transform: translateY(1px);
 }
 
+.arcade-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .button-text {
   position: relative;
   z-index: 1;
+}
+
+/* Nickname Input Styling */
+.nickname-form {
+  width: 100%;
+  max-width: 400px;
+  margin: 2rem auto;
+}
+
+.input-container {
+  margin-bottom: 2rem;
+}
+
+.nickname-input {
+  width: 100%;
+  padding: 12px 20px;
+  font-size: 1.2rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #ffffff;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.nickname-input:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 15px rgba(79, 70, 229, 0.3);
+}
+
+.nickname-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.error-message {
+  color: #ff6666;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.save-button {
+  background: linear-gradient(45deg, #4f46e5, #7c3aed);
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(79, 70, 229, 0.3);
 }
 
 @keyframes gameOverPulse {
