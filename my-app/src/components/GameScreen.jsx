@@ -27,6 +27,10 @@ const GameScreen = ({
 
   return (
     <div className={"game-screen" + (isTransitioning ? " transitioning" : "")}>
+      {/* Quit button fixed at top-right of the page */}
+      <button className="quit-top-right control-button" onClick={onQuit}>
+        Exit
+      </button>
       <div className="game-header">
         <WordPrompt word={currentWord} />
         {/* Render Timer always (so it can listen to round changes) but hide when paused */}
@@ -60,10 +64,7 @@ const GameScreen = ({
 
       <div className="game-controls">
         <button className="control-button skip-button" onClick={onSkipWord}>
-          Skip Word
-        </button>
-        <button className="control-button quit-button" onClick={onQuit}>
-          Quit Game
+          Skip
         </button>
       </div>
     </div>
