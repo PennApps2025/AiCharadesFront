@@ -10,7 +10,7 @@ import Leaderboard from "./components/Leaderboard";
 import { getRandomWord, sendFrameToBackend, submitScore } from "./api/gameApi";
 
 // Define the game duration in seconds.
-const GAME_DURATION = 10; // seconds for the whole match
+const GAME_DURATION = 30; // seconds for the whole match
 
 function App() {
   const [gameState, setGameState] = useState("start"); // 'start', 'playing', 'end'
@@ -185,7 +185,7 @@ function App() {
           currentWord={currentWord}
           aiGuess={aiResponse?.response || aiResponse?.guess || ""}
           resetSignal={aiResponseKey}
-          // onCapture={handleSendFrame}
+          onCapture={handleSendFrame}
           duration={GAME_DURATION}
           onTimeUp={handleTimeUp}
           onSkipWord={handleSkipWord}
