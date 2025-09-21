@@ -47,7 +47,7 @@ const EndScreen = ({ score, totalRounds, onRestart, onBackToStart, onShowLeaderb
         <div className="score-container">
           <div className="score-box">
             <div className="score-value">
-              {score}/{totalRounds}
+              {score}
             </div>
             <div className="score-label">Score</div>
           </div>
