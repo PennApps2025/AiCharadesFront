@@ -4,12 +4,12 @@ import "./App.css";
 import StartScreen from "./components/StartScreen";
 import GameScreen from "./components/GameScreen";
 import EndScreen from "./components/EndScreen";
-// single-timer mode: no per-round intro
+import RoundIntro from "./components/RoundIntro";
 
 import { getRandomWord, sendFrameToBackend } from "./api/gameApi";
 
 // Define the game duration in seconds.
-const GAME_DURATION = 1000; // seconds for the whole match
+const GAME_DURATION = 10; // seconds for the whole match
 
 function App() {
   const [gameState, setGameState] = useState("start"); // 'start', 'playing', 'end'
@@ -97,13 +97,18 @@ function App() {
       setCurrentWord(data.word);
       setChoices(data.choices);
       setAiResponse(null);
-      setGameState("playing");
       setScore(0);
-      // bump start key to reset timer in GameScreen/Timer
+      // show round intro first, then actually start playing after intro completes
+      setGameState("intro");
+      // bump start key anyway so timer components stay deterministic
       setGameStartKey((k) => k + 1);
     } catch (error) {
       console.error("Error fetching word:", error);
     }
+  };
+
+  const handleIntroComplete = () => {
+    setGameState("playing");
   };
 
   const handlePlayAgain = () => {
@@ -159,12 +164,16 @@ function App() {
 
       {gameState === "start" && <StartScreen onStartGame={handleStartGame} />}
 
+      {gameState === "intro" && (
+        <RoundIntro onComplete={handleIntroComplete} />
+      )}
+
       {gameState === "playing" && (
         <GameScreen
           currentWord={currentWord}
           aiGuess={aiResponse?.response || aiResponse?.guess || ""}
           resetSignal={aiResponseKey}
-          onCapture={handleSendFrame}
+          // onCapture={handleSendFrame}
           duration={GAME_DURATION}
           onTimeUp={handleTimeUp}
           onSkipWord={handleSkipWord}
