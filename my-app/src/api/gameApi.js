@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const BASE_URL = "https://backaicharades-q7oy.onrender.com"
+// const BASE_URL = "https://backaicharades-q7oy.onrender.com"
+const BASE_URL = "http://localhost:8000"
 
 // GET random word
 export const getRandomWord = async (category = null) => {
