@@ -9,7 +9,7 @@ import RoundIntro from "./components/RoundIntro";
 import { getRandomWord, sendFrameToBackend } from "./api/gameApi";
 
 // Define the game duration in seconds.
-const GAME_DURATION = 10;
+const GAME_DURATION = 1000;
 const TOTAL_ROUNDS = 5;
 
 function App() {
@@ -106,8 +106,9 @@ function App() {
     setGameState("start");
   };
 
-  const handleSendFrame = useCallback(async (imageBlob) => {
-    if (!imageBlob) return;
+  const handleSendFrame = useCallback(
+    async (imageBlob) => {
+      if (!imageBlob) return;
 
     const now = Date.now();
     if (now - lastSentTime.current < 2800) {
@@ -125,14 +126,14 @@ function App() {
   }, [currentWord, choices]);
 
   const handleSkipWord = useCallback(async () => {
-  try {
-    const data = await getRandomWord();
-    setCurrentWord(data.word);
-    setChoices(data.choices);
-    setResultConfirmed(null);
-  } catch (err) {
-    console.error("Error fetching new word:", err);
-  }
+    try {
+      const data = await getRandomWord();
+      setCurrentWord(data.word);
+      setChoices(data.choices);
+      setResultConfirmed(null);
+    } catch (err) {
+      console.error("Error fetching new word:", err);
+    }
   }, []);
 
   const handleQuitGame = () => {
@@ -156,33 +157,37 @@ function App() {
 
       {gameState === "playing" && (
         <>
-        {showRoundIntro && (
-          <RoundIntro
-            round={currentRound}
-            onDone={() => {
-              setShowRoundIntro(false);
-              // allow next round to be ended when appropriate
-              roundEndedRef.current = false;
-            }}
+          {showRoundIntro && (
+            <RoundIntro
+              round={currentRound}
+              onDone={() => {
+                setShowRoundIntro(false);
+                // allow next round to be ended when appropriate
+                roundEndedRef.current = false;
+              }}
+            />
+          )}
+          <GameScreen
+            currentWord={currentWord}
+            aiGuess={aiResponse?.response || ""}
+            onCapture={handleSendFrame}
+            duration={GAME_DURATION}
+            onTimeUp={handleTimeUp}
+            onSkipWord={handleSkipWord}
+            onQuit={handleQuitGame}
+            currentRound={currentRound}
+            paused={showRoundIntro}
+            isTransitioning={isTransitioning}
           />
-        )}
-        <GameScreen
-          currentWord={currentWord}
-          aiGuess={aiResponse?.response || ""}
-          onCapture={handleSendFrame}
-          duration={GAME_DURATION}
-          onTimeUp={handleTimeUp}
-          onSkipWord={handleSkipWord}
-          onQuit={handleQuitGame}
-          currentRound={currentRound}
-          paused={showRoundIntro}
-          isTransitioning={isTransitioning}
-        />
         </>
       )}
 
       {gameState === "end" && (
-        <EndScreen score={score} totalRounds={TOTAL_ROUNDS} onRestart={handleStartGame} />
+        <EndScreen
+          score={score}
+          totalRounds={TOTAL_ROUNDS}
+          onRestart={handleStartGame}
+        />
       )}
       {resultMessage && (
         <div style={resultStyles.overlay}>
@@ -197,23 +202,23 @@ export default App;
 
 const resultStyles = {
   overlay: {
-    position: 'fixed',
+    position: "fixed",
     top: 0,
     left: 0,
     right: 0,
-    display: 'flex',
-    justifyContent: 'center',
+    display: "flex",
+    justifyContent: "center",
     zIndex: 3000,
-    pointerEvents: 'none',
+    pointerEvents: "none",
   },
   card: {
     marginTop: 20,
-    padding: '8px 16px',
+    padding: "8px 16px",
     borderRadius: 8,
-    background: 'rgba(0,0,0,0.7)',
-    color: '#fff',
-    fontSize: '1.1rem',
+    background: "rgba(0,0,0,0.7)",
+    color: "#fff",
+    fontSize: "1.1rem",
     fontWeight: 700,
-    pointerEvents: 'none',
+    pointerEvents: "none",
   },
 };
