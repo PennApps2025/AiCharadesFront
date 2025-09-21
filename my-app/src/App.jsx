@@ -16,7 +16,8 @@ function App() {
   const [gameState, setGameState] = useState("start"); // 'start', 'playing', 'end'
   const [currentWord, setCurrentWord] = useState("");
   const [choices, setChoices] = useState([]);
-  const [aiGuess, setAiGuess] = useState("");
+  // store full backend response: { guess, result, response }
+  const [aiResponse, setAiResponse] = useState(null);
   const [resultConfirmed, setResultConfirmed] = useState(null); // 'success', 'fail', null
   const [currentRound, setCurrentRound] = useState(1);
   const [score, setScore] = useState(0);
@@ -29,16 +30,15 @@ function App() {
   // When AI returns a guess, show it but do NOT end the round automatically.
   // This allows the player to keep trying until the timer expires.
   useEffect(() => {
-    if (aiGuess && gameState === "playing") {
-  const correct = aiGuess.toLowerCase().includes(currentWord.toLowerCase());
-      if (correct) {
-        // If AI guessed correctly, immediately end the round as success
+    if (aiResponse && gameState === "playing") {
+      // If backend indicates success explicitly, end the round
+      if (aiResponse.result === "success") {
         processRoundEnd(true);
         return;
       }
-      // Otherwise just display/log the guess; do not end the round automatically.
+      // Otherwise just display/log the guess (aiResponse.guess or aiResponse.response)
     }
-  }, [aiGuess, currentWord, gameState]);
+  }, [aiResponse, currentWord, gameState]);
 
   // Process end of round: show result message, then advance or end
   const processRoundEnd = (isCorrect) => {
@@ -91,7 +91,7 @@ function App() {
       const data = await getRandomWord();
       setCurrentWord(data.word);
       setChoices(data.choices);
-      setAiGuess("");
+      setAiResponse(null);
       setGameState("playing");
       setCurrentRound(1);
       setScore(0);
@@ -110,14 +110,15 @@ function App() {
     if (!imageBlob) return;
 
     const now = Date.now();
-    if (now - lastSentTime.current < 4000) {
+    if (now - lastSentTime.current < 2800) {
       return;
     }
     lastSentTime.current = now;
 
     try {
       const data = await sendFrameToBackend(imageBlob, currentWord, choices);
-      setAiGuess(data.guess);
+      // store the full response object
+      setAiResponse(data);
     } catch (error) {
       console.error("Error sending frame to backend:", error);
     }
@@ -138,7 +139,7 @@ function App() {
     setGameState("start");
     setCurrentWord("");
     setChoices([]);
-    setAiGuess("");
+    setAiResponse(null);
   };
 
   // --- Timer expiration ---
@@ -167,7 +168,7 @@ function App() {
         )}
         <GameScreen
           currentWord={currentWord}
-          aiGuess={aiGuess}
+          aiGuess={aiResponse?.response || ""}
           onCapture={handleSendFrame}
           duration={GAME_DURATION}
           onTimeUp={handleTimeUp}

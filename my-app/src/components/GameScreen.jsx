@@ -22,7 +22,7 @@ const GameScreen = ({
   isTransitioning = false,
   currentRound = 0,
 }) => {
-  const CAPTURE_INTERVAL = 4; // seconds
+  const CAPTURE_INTERVAL = 3; // seconds
 
   return (
     <div className={"game-screen" + (isTransitioning ? " transitioning" : "")}>

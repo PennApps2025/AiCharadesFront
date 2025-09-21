@@ -18,5 +18,5 @@ export const sendFrameToBackend = async (imageBlob, word, choices) => {
   const response = await axios.post("http://localhost:8000/guess", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
-  return response.data; // { guess, result }
+  return response.data; // { guess, result, response }
 };
