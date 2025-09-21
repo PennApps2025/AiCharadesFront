@@ -1,0 +1,85 @@
+/* Leaderboard Screen */
+.leaderboard-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #1e1e2f, #28293d);
+  color: #e0e0e0;
+  padding: 20px;
+}
+
+.leaderboard-title {
+  font-size: 3rem;
+  margin-bottom: 30px;
+  color: #ff1a1a; /* Neon arcade red */
+  text-shadow: 0 0 15px rgba(255, 26, 26, 0.8);
+}
+
+/* Table Styles */
+.leaderboard-table {
+  width: 80%;
+  max-width: 700px;
+  border-collapse: collapse;
+  background: rgba(30, 30, 30, 0.9);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(79, 70, 229, 0.5);
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 15px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+.leaderboard-table th {
+  background-color: #2a2a40;
+  color: #66d9ef;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.leaderboard-table tr:nth-child(even) {
+  background-color: #222;
+}
+
+.leaderboard-table tr:hover {
+  background-color: #333;
+}
+
+/* Highlight Top 3 */
+.rank-1 td {
+  color: gold;
+  text-shadow: 0 0 10px gold;
+}
+.rank-2 td {
+  color: silver;
+  text-shadow: 0 0 10px silver;
+}
+.rank-3 td {
+  color: #cd7f32; /* Bronze */
+  text-shadow: 0 0 10px #cd7f32;
+}
+
+/* Back Button */
+.back-button {
+  margin-top: 30px;
+  padding: 12px 30px;
+  background: linear-gradient(to right, #4f46e5, #7c3aed);
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.5);
+  transition: all 0.2s ease-in-out;
+}
+
+.back-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.7);
+}
