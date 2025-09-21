@@ -1,8 +1,10 @@
 import axios from "axios";
 
+const BASE_URL = "https://backaicharades-7hia.onrender.com"
+
 // GET random word
 export const getRandomWord = async (category = null) => {
-  const response = await axios.get("http://localhost:8000/get_word", {
+  const response = await axios.get(BASE_URL + "/get_word", {
     params: { category },
   });
   return response.data; // { word, choices }
@@ -15,7 +17,7 @@ export const sendFrameToBackend = async (imageBlob, word, choices) => {
   formData.append("word", word);
   formData.append("choices", choices.join(","));
 
-  const response = await axios.post("http://localhost:8000/guess", formData, {
+  const response = await axios.post(BASE_URL + "/guess", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
   return response.data; // { guess, result, response }
@@ -24,7 +26,7 @@ export const sendFrameToBackend = async (imageBlob, word, choices) => {
 // POST score to leaderboard
 export const submitScore = async (username, score) => {
   try {
-    const response = await axios.post("http://localhost:8000/leaderboard", {
+    const response = await axios.post(BASE_URL + "/leaderboard", {
       username,
       score
     });
@@ -38,7 +40,7 @@ export const submitScore = async (username, score) => {
 // GET leaderboard data
 export const getLeaderboard = async () => {
   try {
-    const response = await axios.get("http://localhost:8000/leaderboard");
+    const response = await axios.get(BASE_URL + "/leaderboard");
     return response.data; // Array of { username, score } objects
   } catch (error) {
     console.error("Error fetching leaderboard:", error);
