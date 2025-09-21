@@ -90,7 +90,6 @@
   margin: 1rem 0;
   text-transform: uppercase;
   letter-spacing: 2px;
-  animation: slideIn 0.5s ease-out forwards;
 }
 
 .excellent {
@@ -140,7 +139,6 @@
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 1px;
   overflow: hidden;
@@ -243,17 +241,6 @@
   }
   100% {
     text-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
-  }
-}
-
-@keyframes slideIn {
-  from {
-    transform: translateX(-30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
   }
 }
 

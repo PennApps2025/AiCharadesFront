@@ -505,3 +505,15 @@ body {
   align-items: center;
   gap: 20px;
 }
+
+.countdown-arcade {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.stats-row {
+  display: flex;
+  gap: 20px;       /* horizontal spacing between Score and Attempts */
+  margin-top: 60px; /* vertical separation from top paragraph */
+}

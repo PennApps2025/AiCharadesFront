@@ -59,9 +59,11 @@ function CountdownTimer({ interval, onCapture, paused = false, score = 0, resetS
 
   return (
     <div className="countdown-arcade">
-      <p className="capture-count">Score: {score}</p>
-      <p className="attempts-count">Attempts: {attempts}</p>
       <p className="countdown-text">Strike a pose in: {timeLeft}</p>
+      <div className="stats-row">
+        <p className="capture-count">Score: {score}</p>
+        <p className="attempts-count">Attempts: {attempts}</p>
+      </div>
     </div>
   );
 }
