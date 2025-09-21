@@ -20,16 +20,20 @@ const StartScreen = ({ onStartGame }) => {
       />
       <img src={titleImg} alt="AI Charades" className="start-title" />
       <img src={jumpRobot} alt="jump robot" className="start-robot-right" />
-      <div className="start-screen-content">
+      {/* <div className="start-screen-content">
         <h2>Welcome to AI Charades!</h2>
         <p>
           Get ready to act out the word on the screen. The AI will try to guess
           what you're doing in real time.
-        </p>
-        <button className="start-button" onClick={onStartGame}>
-          Start Game
-        </button>
-      </div>
+        </p> */}
+      <img
+        src={startImg}
+        alt="Start Game button"
+        className="start-button"
+        onClick={onStartGame}
+        style={{ cursor: "pointer" }} // Optional: adds a pointer cursor on hover
+      />
+      {/* </div> */}
     </div>
   );
 };
