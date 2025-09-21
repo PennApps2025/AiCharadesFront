@@ -233,7 +233,7 @@ body {
 /* --- Guess overlay animations --- */
 .guess-overlay {
   position: fixed;
-  top: 24px;
+  top: 150px; /* overlay finish location */
   left: 50%;
   transform: translateX(-50%);
   z-index: 4000;
@@ -267,9 +267,9 @@ body {
 
 
 .guess-icon {
-  font-size: 112px;
+  font-size: 140px;
   line-height: 1;
-  font-weight: 900; /* bold */
+  font-weight: 800; /* bold */
   text-shadow: 0 6px 20px rgba(0,0,0,0.4);
 }
 

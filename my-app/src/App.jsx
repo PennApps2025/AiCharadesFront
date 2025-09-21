@@ -9,7 +9,7 @@ import EndScreen from "./components/EndScreen";
 import { getRandomWord, sendFrameToBackend } from "./api/gameApi";
 
 // Define the game duration in seconds.
-const GAME_DURATION = 15; // seconds for the whole match
+const GAME_DURATION = 1000; // seconds for the whole match
 
 function App() {
   const [gameState, setGameState] = useState("start"); // 'start', 'playing', 'end'
@@ -17,6 +17,7 @@ function App() {
   const [choices, setChoices] = useState([]);
   // store full backend response: { guess, result, response }
   const [aiResponse, setAiResponse] = useState(null);
+  const [aiResponseKey, setAiResponseKey] = useState(0);
   const [resultConfirmed, setResultConfirmed] = useState(null); // 'success', 'fail', null
   const [score, setScore] = useState(0);
   const [resultMessage, setResultMessage] = useState(null);
@@ -63,6 +64,8 @@ function App() {
           }
         })();
       }
+      // bump key so countdown timers listening to resetSignal can restart
+      setAiResponseKey((k) => k + 1);
     }
     // cleanup on unmount
     return () => {
@@ -160,6 +163,7 @@ function App() {
         <GameScreen
           currentWord={currentWord}
           aiGuess={aiResponse?.response || aiResponse?.guess || ""}
+          resetSignal={aiResponseKey}
           onCapture={handleSendFrame}
           duration={GAME_DURATION}
           onTimeUp={handleTimeUp}
