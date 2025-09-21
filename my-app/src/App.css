@@ -359,7 +359,7 @@ body {
 /* --- Guess overlay animations --- */
 .guess-overlay {
   position: fixed;
-  top: 150px; /* overlay finish location */
+  top: 170px; /* overlay finish location */
   left: 50%;
   transform: translateX(-50%);
   z-index: 4000;
