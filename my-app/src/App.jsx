@@ -20,6 +20,7 @@ function App() {
   const [aiResponseKey, setAiResponseKey] = useState(0);
   const [resultConfirmed, setResultConfirmed] = useState(null); // 'success', 'fail', null
   const [score, setScore] = useState(0);
+  const [attempts, setAttempts] = useState(0);
   const [resultMessage, setResultMessage] = useState(null);
   const [gameStartKey, setGameStartKey] = useState(0); // increment to reset timer / start new game
   const [displayedGuess, setDisplayedGuess] = useState("");
@@ -99,6 +100,7 @@ function App() {
       setAiResponse(null);
       setGameState("playing");
       setScore(0);
+      setAttempts(0); // reset attempts when starting new game
       // bump start key to reset timer in GameScreen/Timer
       setGameStartKey((k) => k + 1);
     } catch (error) {
@@ -107,6 +109,11 @@ function App() {
   };
   const handleBackToStart = () => {
     setGameState("start");
+  };
+
+  // Callback to handle attempts count from CountdownTimer
+  const handleAttemptsUpdate = (newAttempts) => {
+    setAttempts(newAttempts);
   };
 
 
@@ -175,12 +182,13 @@ function App() {
           onQuit={handleQuitGame}
           paused={false}
           startSignal={gameStartKey}
+          onAttemptsUpdate={handleAttemptsUpdate}
         />
       )}
       {gameState === "end" && (
         <EndScreen
           score={score}
-          totalRounds={GAME_DURATION} 
+          attempts={attempts} 
           onRestart={handleStartGame}
           onBackToStart={handleBackToStart}
         />

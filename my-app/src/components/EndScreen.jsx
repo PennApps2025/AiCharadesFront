@@ -1,12 +1,12 @@
 import React from "react";
 
-const EndScreen = ({ score, totalRounds, onRestart, onBackToStart }) => {
+const EndScreen = ({ score, attempts, onRestart, onBackToStart }) => {
   return (
     <div style={styles.container}>
       <div style={styles.content}>
         <h1 style={styles.title}>Game Over</h1>
         <p style={styles.score}>
-          Your Score: {score} / {totalRounds}
+          Your Score: {score} / {attempts}
         </p>
         <p style={styles.question}>Do you want to play again?</p>
         <div style={styles.buttonContainer}>

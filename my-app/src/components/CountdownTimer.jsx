@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-function CountdownTimer({ interval, onCapture, paused = false, score = 0, resetSignal }) {
+function CountdownTimer({ interval, onCapture, paused = false, score = 0, resetSignal, onAttemptsUpdate }) {
   const [timeLeft, setTimeLeft] = useState(interval);
 
   // Ref to ensure we only trigger capture once per tick
@@ -29,7 +29,11 @@ function CountdownTimer({ interval, onCapture, paused = false, score = 0, resetS
         if (prev <= 1) {
           if (!capturedRef.current) {
             onCapture?.();
-            setAttempts((a) => a + 1);
+            setAttempts((a) => {
+              const newAttempts = a + 1;
+              onAttemptsUpdate?.(newAttempts);
+              return newAttempts;
+            });
             capturedRef.current = true;
             // enter wait mode: show 1 until resetSignal
             waitingForResponseRef.current = true;
