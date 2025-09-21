@@ -6,6 +6,7 @@ import WebcamFeed from "./WebcamFeed";
 import AIGuessDisplay from "./AIGuessDisplay";
 import Timer from "./Timer";
 import CountdownTimer from "./CountdownTimer";
+import robotImg from "../../resources/robot.gif";
 
 // Import the new CSS for layout and arcade theme
 import "../gameScreenLayout.css";
@@ -29,20 +30,33 @@ const GameScreen = ({
       <div className="game-header">
         <WordPrompt word={currentWord} />
         {/* Render Timer always (so it can listen to round changes) but hide when paused */}
-        <div style={{ visibility: paused ? 'hidden' : 'visible', width: 300 }}>
-          <Timer duration={duration} onTimeUp={onTimeUp} paused={paused} round={currentRound} />
+        <div style={{ visibility: paused ? "hidden" : "visible", width: 300 }}>
+          <Timer
+            duration={duration}
+            onTimeUp={onTimeUp}
+            paused={paused}
+            round={currentRound}
+          />
         </div>
       </div>
 
       {/* Webcam + Countdown side by side */}
       <div className="webcam-countdown-container">
+        {/* Robot block (image + AI guess above it) placed to the left of the centered webcam */}
+        <div className="robot-block">
+          <AIGuessDisplay guess={aiGuess} />
+          <img src={robotImg} alt="robot" className="robot-image" />
+        </div>
+
         <div className="webcam-container">
           <WebcamFeed onCapture={onCapture} paused={paused} />
         </div>
-        <CountdownTimer interval={CAPTURE_INTERVAL} onCapture={onCapture} paused={paused} />
+        <CountdownTimer
+          interval={CAPTURE_INTERVAL}
+          onCapture={onCapture}
+          paused={paused}
+        />
       </div>
-
-      <AIGuessDisplay guess={aiGuess} />
 
       <div className="game-controls">
         <button className="control-button skip-button" onClick={onSkipWord}>
