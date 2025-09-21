@@ -1,14 +1,43 @@
 import React, { useEffect, useState } from "react";
+import { submitScore } from "../api/gameApi";
 import "./EndScreen.css";
 
-const EndScreen = ({ score, totalRounds, onRestart, onBackToStart }) => {
+const EndScreen = ({ score, totalRounds, onRestart, onBackToStart, onShowLeaderboard }) => {
   const [showContent, setShowContent] = useState(false);
+  const [showNameInput, setShowNameInput] = useState(false);
+  const [showPlayAgain, setShowPlayAgain] = useState(false);
+  const [username, setUsername] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState("");
   const accuracy = totalRounds > 0 ? Math.round((score / totalRounds) * 100) : 0;
   
   useEffect(() => {
-    // 애니메이션을 위한 딜레이
     setTimeout(() => setShowContent(true), 100);
   }, []);
+
+  const handleSaveScore = () => {
+    setShowNameInput(true);
+  };
+
+  const handleSubmitScore = async (e) => {
+    e.preventDefault();
+    if (!username.trim()) {
+      setSubmitError("Please enter a nickname");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitError("");
+
+    try {
+      await submitScore(username, score);
+      setShowNameInput(false);
+      setShowPlayAgain(true);
+    } catch (error) {
+      setSubmitError("Failed to save score. Please try again.");
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="end-screen-container">
@@ -41,16 +70,77 @@ const EndScreen = ({ score, totalRounds, onRestart, onBackToStart }) => {
           )}
         </div>
 
-        <p className="play-again-text">Want to challenge again?</p>
-        
-        <div className="button-container">
-          <button className="arcade-button yes-button" onClick={onRestart}>
-            <span className="button-text">YES!</span>
-          </button>
-          <button className="arcade-button no-button" onClick={onBackToStart}>
-            <span className="button-text">No</span>
-          </button>
-        </div>
+        {!showNameInput && !showPlayAgain ? (
+          <>
+            <p className="play-again-text">Want to save your score?</p>
+            <div className="endscreenbutton-container" style={{ flexDirection: 'row', flexWrap: 'nowrap' }}>
+              <button className="arcade-button save-button initial-choice" onClick={handleSaveScore}>
+                <span className="button-text">Save Score</span>
+              </button>
+              <button 
+                className="arcade-button no-button initial-choice" 
+                onClick={() => setShowPlayAgain(true)}
+              >
+                <span className="button-text">No Thanks</span>
+              </button>
+            </div>
+          </>
+        ) : showPlayAgain ? (
+          <>
+            <p className="play-again-text">Play again?</p>
+            <div className="endscreenbutton-container">
+              <button className="arcade-button yes-button" onClick={onRestart}>
+                <span className="button-text">YES!</span>
+              </button>
+              <button className="arcade-button no-button" onClick={onBackToStart}>
+                <span className="button-text">EXIT</span>
+              </button>
+            </div>
+            <div className="endscreenbutton-container" style={{ marginTop: '1rem' }}>
+              <button 
+                className="arcade-button leaderboard-button full-width" 
+                onClick={onShowLeaderboard}
+                style={{ width: '100%', maxWidth: '400px' }}
+              >
+                <span className="button-text">Leaderboard</span>
+              </button>
+            </div>
+          </>
+        ) : (
+          <form onSubmit={handleSubmitScore} className="nickname-form">
+            <div className="input-container">
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter your nickname"
+                maxLength="15"
+                className="nickname-input"
+                disabled={isSubmitting}
+              />
+              {submitError && <div className="error-message">{submitError}</div>}
+            </div>
+            <div className="endscreenbutton-container" style={{ flexDirection: 'row', flexWrap: 'nowrap' }}>
+              <button 
+                type="submit" 
+                className="arcade-button save-button initial-choice"
+                disabled={isSubmitting}
+              >
+                <span className="button-text">
+                  {isSubmitting ? "Saving..." : "Submit"}
+                </span>
+              </button>
+              <button 
+                type="button"
+                className="arcade-button no-button initial-choice"
+                onClick={() => setShowNameInput(false)}
+                disabled={isSubmitting}
+              >
+                <span className="button-text">Cancel</span>
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </div>
   );

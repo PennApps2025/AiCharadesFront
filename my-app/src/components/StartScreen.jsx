@@ -5,7 +5,7 @@ import jumpRobot from "../../resources/jump_robot.gif";
 import startImg from "../../resources/start.png";
 import leaderboard from "../../resources/leaderboard.png";
 
-const StartScreen = ({ onStartGame }) => {
+const StartScreen = ({ onStartGame, onShowLeaderboard }) => {
   return (
     <div className="start-screen">
       <img
@@ -29,7 +29,7 @@ const StartScreen = ({ onStartGame }) => {
           src={leaderboard}
           alt="leaderboard"
           className="leader-button" // Use a different class or the same if styles are identical
-          // onClick={onShowLeaderboard} // leaderboard function here @@@@@@@@@
+          onClick={onShowLeaderboard} // leaderboard function here @@@@@@@@@
           style={{ cursor: "pointer" }}
         />
       </div>

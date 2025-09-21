@@ -5,8 +5,9 @@ import StartScreen from "./components/StartScreen";
 import GameScreen from "./components/GameScreen";
 import EndScreen from "./components/EndScreen";
 import RoundIntro from "./components/RoundIntro";
+import Leaderboard from "./components/Leaderboard";
 
-import { getRandomWord, sendFrameToBackend } from "./api/gameApi";
+import { getRandomWord, sendFrameToBackend, submitScore } from "./api/gameApi";
 
 // Define the game duration in seconds.
 const GAME_DURATION = 10; // seconds for the whole match
@@ -112,6 +113,10 @@ function App() {
     setGameState("start");
   };
 
+  const handleShowLeaderboard = () => {
+    setGameState("leaderboard");
+  };
+
 
   const handleIntroComplete = () => {
     setGameState("playing");
@@ -169,7 +174,7 @@ function App() {
     <div className="App-container">
       {gameState === "start" && <h1>AI Charades</h1>}
 
-      {gameState === "start" && <StartScreen onStartGame={handleStartGame} />}
+      {gameState === "start" && <StartScreen onStartGame={handleStartGame} onShowLeaderboard={handleShowLeaderboard} />}
 
       {gameState === "intro" && (
         <RoundIntro onComplete={handleIntroComplete} />
@@ -180,7 +185,7 @@ function App() {
           currentWord={currentWord}
           aiGuess={aiResponse?.response || aiResponse?.guess || ""}
           resetSignal={aiResponseKey}
-          onCapture={handleSendFrame}
+          // onCapture={handleSendFrame}
           duration={GAME_DURATION}
           onTimeUp={handleTimeUp}
           onSkipWord={handleSkipWord}
@@ -195,7 +200,11 @@ function App() {
           totalRounds={attempts} 
           onRestart={handleStartGame}
           onBackToStart={handleBackToStart}
+          onShowLeaderboard={handleShowLeaderboard}
         />
+      )}
+      {gameState === "leaderboard" && (
+        <Leaderboard onBack={handleBackToStart} />
       )}
       {/* Animated guess overlay (success: green circle, fail: red X) */}
       <div className="guess-overlay">
