@@ -51,30 +51,23 @@
 
 /* --- Countdown Timer Arcade Style --- */
 .countdown-arcade {
-  /* Fixed-size countdown that visually sits to the right of the centered
-     webcam via absolute positioning on wide screens. On small screens this
-     falls back to normal document flow (see media query below). */
-  width: 250px;
+  /* Positioned to the right-top of the webcam container */
+  width: 380px; /* allow single-line countdown */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 25px rgba(79, 70, 229, 0.5);
-  background: linear-gradient(135deg, #1e1e2f, #28293d);
-  border: 3px solid #7c3aed;
-  border-radius: 16px;
-  padding: 15px;
-  /* box-shadow: 0 0 20px #4f46e5, 0 0 40px #22c55e, 0 0 60px #ff6b6b; */
-  /* Position to the right of the centered webcam. Uses the webcam half-width
-    (250px) + a horizontal gap (60px). This relies on the webcam container
-    width staying at 500px; if you change the webcam width update the calc
-    below. */
+  /* make background fully transparent */
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 10px;
+  padding: 12px 18px;
   position: absolute;
-  /* half of webcam is now 350px (700 / 2) */
-  left: calc(50% + 350px + 60px);
-  top: 30%;
-  transform: translateY(-50%);
-  animation: pulse 1.2s infinite;
+  /* Shift further right so it doesn't overlap the webcam (tweak if your webcam width changes) */
+  left: calc(50% + 420px);
+  top: 10%;
+  transform: translateY(0%);
 }
 
 /* --- Robot image positioned to the left of the centered webcam --- */
@@ -106,7 +99,9 @@
   bottom: calc(320px + 12px); /* robot height (220px) + gap */
   left: 50%;
   transform: translateX(-50%);
-  width: 90%;
+  /* allow a wider single-line area but cap for very wide screens */
+  width: min(360px, 40vw);
+  max-width: 440px;
   text-align: center;
   white-space: normal;
   overflow-wrap: break-word;
@@ -115,31 +110,51 @@
 
 /* Countdown Text */
 .countdown-text {
-  font-family: "Press Start 2P", monospace;
-  font-size: 1.2rem;
-  font-weight: bold;
+  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 2.2rem; /* larger for emphasis */
+  font-weight: 900;
   color: #22c55e;
-  /* text-shadow: 0 0 5px #22c55e, 0 0 10px #22c55e, 0 0 20px #22c55e; */
-  margin-bottom: 5px;
+  margin: 0 0 8px 0; /* add space below countdown */
+  letter-spacing: 0.8px;
+  white-space: nowrap; /* keep countdown on a single line */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Capture Count */
 .capture-count {
-  font-family: "Press Start 2P", monospace;
-  font-size: 1rem;
-  color: #ff6b6b;
-  /* text-shadow: 0 0 5px #ff6b6b, 0 0 10px #ff6b6b, 0 0 20px #ff6b6b; */
+  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 2.2rem; /* slightly larger */
+  font-weight: 900;
+  color: #ffd54f; /* warm yellow to stand out against dark background */
+  margin: 0;
+  margin-top: 2px;
+}
+
+.attempts-count {
+  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 2.2rem; /* per request */
+  font-weight: 900;
+  color: #9ad3ff; /* soft cyan for contrast */
+  margin: 6px 0 0 0;
+}
+
+.capture-count .small-muted {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.65);
+  font-weight: 400;
 }
 
 /* --- AI Guess Styling --- */
 .ai-guess {
   margin-top: 10px;
-  font-family: "Press Start 2P", monospace;
-  font-size: 1.8rem;
-  font-weight: 400;
+  /* Harmonized typography with the countdown text for consistent UI */
+  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.6rem; /* match .countdown-text */
+  font-weight: 700; /* bold to match countdown */
   min-height: 2.5rem;
   color: #22c55e;
-  /* text-shadow: 0 0 10px rgba(34, 197, 94, 0.7); */
+  /* keep wrapping behavior where needed; robot-block overrides for small screens */
 }
 
 /* --- Game Controls (Skip/Quit buttons) --- */

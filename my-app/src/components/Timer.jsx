@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 
-const Timer = ({ duration, onTimeUp, paused = false, round = 0 }) => {
+const Timer = ({ duration, onTimeUp, paused = false, startSignal = 0 }) => {
   const durationMs = Math.max(0, (duration || 0) * 1000);
   const rafRef = useRef(null);
   const endTimeRef = useRef(null); // timestamp in ms when timer should hit 0
@@ -10,7 +10,7 @@ const Timer = ({ duration, onTimeUp, paused = false, round = 0 }) => {
   const [, forceRerender] = useState(0); // used to re-render on RAF ticks
 
   useEffect(() => {
-    // Reset on duration or round change
+    // Reset on duration or startSignal change
     calledRef.current = false;
     pausedRemainingRef.current = null;
     endTimeRef.current = Date.now() + durationMs;
@@ -19,7 +19,7 @@ const Timer = ({ duration, onTimeUp, paused = false, round = 0 }) => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
     };
-  }, [durationMs, round]);
+  }, [durationMs, startSignal]);
 
   useEffect(() => {
     // Pause handling: freeze remaining ms and stop RAF
@@ -72,7 +72,7 @@ const Timer = ({ duration, onTimeUp, paused = false, round = 0 }) => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
     };
-  }, [paused, durationMs, onTimeUp, round]);
+  }, [paused, durationMs, onTimeUp, startSignal]);
 
   // compute progress [0..1]
   let progress = 1;
