@@ -84,7 +84,7 @@
 
 /* robot image anchored to bottom of the block so it doesn't move when text grows */
 .robot-image {
-  width: 300px;
+  width: 250px;
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -110,7 +110,8 @@
 
 /* Countdown Text */
 .countdown-text {
-  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
   font-size: 2.2rem; /* larger for emphasis */
   font-weight: 900;
   color: #22c55e;
@@ -123,7 +124,8 @@
 
 /* Capture Count */
 .capture-count {
-  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
   font-size: 2.2rem; /* slightly larger */
   font-weight: 900;
   color: #ffd54f; /* warm yellow to stand out against dark background */
@@ -132,7 +134,8 @@
 }
 
 .attempts-count {
-  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
   font-size: 2.2rem; /* per request */
   font-weight: 900;
   color: #9ad3ff; /* soft cyan for contrast */
@@ -141,7 +144,7 @@
 
 .capture-count .small-muted {
   font-size: 0.85rem;
-  color: rgba(255,255,255,0.65);
+  color: rgba(255, 255, 255, 0.65);
   font-weight: 400;
 }
 
@@ -149,7 +152,8 @@
 .ai-guess {
   margin-top: 10px;
   /* Harmonized typography with the countdown text for consistent UI */
-  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial,
+    sans-serif;
   font-size: 1.6rem; /* match .countdown-text */
   font-weight: 700; /* bold to match countdown */
   min-height: 2.5rem;
@@ -193,15 +197,16 @@
 
 /* Game-style typography for Skip button only */
 .skip-button {
-  font-size: 2rem; /* slightly smaller than main control to fit wider width */
-  letter-spacing: 0.06em;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6), 0 2px 6px rgba(124, 58, 237, 0.15);
-  padding-top: 14px;
-  padding-bottom: 14px;
-  text-transform: uppercase;
-  font-weight: 700;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif;
+  /* --- 너비와 높이를 이미지 비율에 맞게 고정 값으로 변경 --- */
+  width: 700px; /* 예시 값입니다. 가지고 계신 skip.png 이미지에 맞게 조절하세요. */
+  height: 100px; /* 예시 값입니다. 가지고 계신 skip.png 이미지에 맞게 조절하세요. */
+
+  /* --- 나머지 스타일은 그대로 유지 --- */
+  background: url("../resources/skip.png") no-repeat center center;
+  background-size: contain; /* 이미지가 잘리지 않고 버튼 안에 꽉 차게 표시 */
+  border: none;
+  padding: 0;
+  cursor: pointer; /* 마우스를 올렸을 때 클릭 가능함을 표시 */
 }
 
 /* Quit button fixed at the top-right corner */
@@ -210,11 +215,22 @@
   top: 18px;
   right: 18px;
   z-index: 9999;
-  padding: 10px 18px;
-  border-radius: 10px;
-  background: linear-gradient(to right, #ef4444, #f97316);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif;
+
+  /* --- 이미지 버튼 스타일 추가 --- */
+  width: 150px; /* 예시 값입니다. exit.png 크기에 맞게 조절하세요. */
+  height: 60px; /* 예시 값입니다. exit.png 크기에 맞게 조절하세요. */
+  background: url("../resources/exit.png") no-repeat center center; /* ⚠️ 이미지 경로를 확인하세요 */
+  background-size: contain; /* 이미지가 버튼 안에 알맞게 표시되도록 설정 */
+  background-color: transparent; /* 배경색 투명하게 설정 */
+
+  /* --- 기존 스타일 제거 또는 수정 --- */
+  border: none;
+  border-radius: 8px; /* 원형으로 만들고 싶다면 50%로 설정 */
+  padding: 0;
+  cursor: pointer;
+
+  /* --- 텍스트 관련 스타일은 더 이상 필요 없음 --- */
+  /* font-family, color 등은 제거 */
 }
 
 @media (max-width: 700px) {
