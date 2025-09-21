@@ -106,6 +106,10 @@ function App() {
       console.error("Error fetching word:", error);
     }
   };
+  const handleBackToStart = () => {
+    setGameState("start");
+  };
+
 
   const handleIntroComplete = () => {
     setGameState("playing");
@@ -182,9 +186,13 @@ function App() {
           startSignal={gameStartKey}
         />
       )}
-
       {gameState === "end" && (
-        <EndScreen score={score} onRestart={handleStartGame} />
+        <EndScreen
+          score={score}
+          totalRounds={GAME_DURATION} 
+          onRestart={handleStartGame}
+          onBackToStart={handleBackToStart}
+        />
       )}
       {/* Animated guess overlay (success: green circle, fail: red X) */}
       <div className="guess-overlay">
