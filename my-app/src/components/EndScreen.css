@@ -1,0 +1,215 @@
+.end-screen-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #1a1a2e, #16213e);
+  z-index: 1000;
+  perspective: 1000px;
+}
+
+.end-screen-content {
+  background: rgba(26, 26, 46, 0.95);
+  border: 2px solid #4a5568;
+  border-radius: 20px;
+  padding: 2rem;
+  text-align: center;
+  max-width: 800px;
+  width: 90%;
+  box-shadow: 0 0 30px rgba(66, 135, 245, 0.2),
+              0 0 60px rgba(66, 135, 245, 0.1);
+  transform: translateY(30px);
+  opacity: 0;
+  transition: all 0.5s ease-out;
+}
+
+.end-screen-content.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.game-over-text {
+  font-size: clamp(3rem, 8vw, 5rem);
+  font-weight: bold;
+  background: linear-gradient(45deg, #ff4d6d, #fc86b3);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
+  margin-bottom: 2rem;
+  animation: gameOverPulse 2s infinite;
+}
+
+.score-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.score-box {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 1.5rem;
+  min-width: 150px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.score-box:hover {
+  transform: translateY(-5px);
+}
+
+.score-value {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: bold;
+  color: #66d9ff;
+  text-shadow: 0 0 10px rgba(102, 217, 255, 0.5);
+  margin-bottom: 0.5rem;
+}
+
+.score-label {
+  font-size: 1rem;
+  color: #a0aec0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.message-container {
+  margin: 2rem 0;
+}
+
+.result-message {
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: bold;
+  margin: 1rem 0;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  animation: slideIn 0.5s ease-out forwards;
+}
+
+.excellent {
+  color: #00ff88;
+  text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+}
+
+.great {
+  color: #66d9ff;
+  text-shadow: 0 0 10px rgba(102, 217, 255, 0.5);
+}
+
+.good {
+  color: #ffb366;
+  text-shadow: 0 0 10px rgba(255, 179, 102, 0.5);
+}
+
+.keep-trying {
+  color: #ff6666;
+  text-shadow: 0 0 10px rgba(255, 102, 102, 0.5);
+}
+
+.play-again-text {
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  color: #ffffff;
+  margin: 2rem 0;
+  opacity: 0.8;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
+
+.arcade-button {
+  position: relative;
+  padding: 15px 40px;
+  font-size: clamp(1rem, 2.5vw, 1.4rem);
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  overflow: hidden;
+}
+
+.yes-button {
+  background: linear-gradient(45deg, #00ff88, #00cc6f);
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+}
+
+.no-button {
+  background: linear-gradient(45deg, #ff4d6d, #ff1744);
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(255, 77, 109, 0.3);
+}
+
+.arcade-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+}
+
+.arcade-button:active {
+  transform: translateY(1px);
+}
+
+.button-text {
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes gameOverPulse {
+  0% {
+    text-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(255, 77, 109, 0.8);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(255, 77, 109, 0.5);
+  }
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* 반응형 디자인 */
+@media (max-width: 600px) {
+  .score-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .score-box {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .button-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .arcade-button {
+    width: 100%;
+  }
+}

@@ -20,6 +20,7 @@ function App() {
   const [aiResponseKey, setAiResponseKey] = useState(0);
   const [resultConfirmed, setResultConfirmed] = useState(null); // 'success', 'fail', null
   const [score, setScore] = useState(0);
+  const [attempts, setAttempts] = useState(0);
   const [resultMessage, setResultMessage] = useState(null);
   const [gameStartKey, setGameStartKey] = useState(0); // increment to reset timer / start new game
   const [displayedGuess, setDisplayedGuess] = useState("");
@@ -98,6 +99,7 @@ function App() {
       setChoices(data.choices);
       setAiResponse(null);
       setScore(0);
+      setAttempts(0);
       // show round intro first, then actually start playing after intro completes
       setGameState("intro");
       // bump start key anyway so timer components stay deterministic
@@ -133,6 +135,7 @@ function App() {
       const data = await sendFrameToBackend(imageBlob, currentWord, choices);
       // store the full response object
       setAiResponse(data);
+      setAttempts(prev => prev + 1);
     } catch (error) {
       console.error("Error sending frame to backend:", error);
     }
@@ -177,7 +180,7 @@ function App() {
           currentWord={currentWord}
           aiGuess={aiResponse?.response || aiResponse?.guess || ""}
           resetSignal={aiResponseKey}
-          // onCapture={handleSendFrame}
+          onCapture={handleSendFrame}
           duration={GAME_DURATION}
           onTimeUp={handleTimeUp}
           onSkipWord={handleSkipWord}
@@ -189,7 +192,7 @@ function App() {
       {gameState === "end" && (
         <EndScreen
           score={score}
-          totalRounds={GAME_DURATION} 
+          totalRounds={attempts} 
           onRestart={handleStartGame}
           onBackToStart={handleBackToStart}
         />
