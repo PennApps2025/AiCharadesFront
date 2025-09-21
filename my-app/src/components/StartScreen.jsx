@@ -3,13 +3,8 @@ import titleImg from "../../resources/title.png";
 import curiousRobot from "../../resources/curious_robot.gif";
 import jumpRobot from "../../resources/jump_robot.gif";
 import startImg from "../../resources/start.png";
+import leaderboard from "../../resources/leaderboard.png";
 
-/**
- * StartScreen displays the initial welcome message and a button to start the game.
- *
- * @param {object} props - The props object.
- * @param {function} props.onStartGame - The function to call when the start button is clicked.
- */
 const StartScreen = ({ onStartGame }) => {
   return (
     <div className="start-screen">
@@ -20,20 +15,24 @@ const StartScreen = ({ onStartGame }) => {
       />
       <img src={titleImg} alt="AI Charades" className="start-title" />
       <img src={jumpRobot} alt="jump robot" className="start-robot-right" />
-      {/* <div className="start-screen-content">
-        <h2>Welcome to AI Charades!</h2>
-        <p>
-          Get ready to act out the word on the screen. The AI will try to guess
-          what you're doing in real time.
-        </p> */}
-      <img
-        src={startImg}
-        alt="Start Game button"
-        className="start-button"
-        onClick={onStartGame}
-        style={{ cursor: "pointer" }} // Optional: adds a pointer cursor on hover
-      />
-      {/* </div> */}
+
+      {/* Container for the buttons */}
+      <div className="button-container">
+        <img
+          src={startImg}
+          alt="Start Game button"
+          className="start-button" // You can keep this class for styling
+          onClick={onStartGame}
+          style={{ cursor: "pointer" }}
+        />
+        <img
+          src={leaderboard}
+          alt="leaderboard"
+          className="leader-button" // Use a different class or the same if styles are identical
+          // onClick={onShowLeaderboard} // leaderboard function here @@@@@@@@@
+          style={{ cursor: "pointer" }}
+        />
+      </div>
     </div>
   );
 };
