@@ -126,14 +126,25 @@ body {
 }
 
 /* --- AI Guess Display --- */
+/* AI Guess styling: use a legible system font with stronger weight to pair with arcade elements */
 .ai-guess h2 {
-  font-size: 1.8rem;
-  font-weight: 400;
+  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 1.6rem; /* harmonized with countdown-text */
+  font-weight: 700; /* bold to match countdown */
   min-height: 2.5rem;
   color: #22c55e; /* Neon green */
-  text-shadow: 0 0 10px rgba(34, 197, 94, 0.7);
-  animation: fadeIn 0.5s ease-in-out;
+  animation: fadeIn 0.35s ease-in-out;
   margin: 0;
+  letter-spacing: 0.6px;
+}
+
+/* Ensure AI guesses have room and trim gracefully on narrow viewports */
+.ai-guess {
+  max-width: 520px; /* give more horizontal room */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
 }
 
 /* --- Win Message Styling --- */
@@ -217,6 +228,70 @@ body {
   transform-origin: left center;
   will-change: transform, background-color;
   transition: background-color 0.4s linear;
+}
+
+/* --- Guess overlay animations --- */
+.guess-overlay {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4000;
+  pointer-events: none;
+}
+
+.guess-card {
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  box-shadow: none; /* no background */
+  opacity: 0;
+  transform: translateY(-50px) scale(0.9);
+}
+
+.guess-card.show {
+  animation: drop-pop 1.1s ease-in-out forwards;
+}
+
+@keyframes drop-pop {
+  0% { opacity: 0; transform: translateY(-40px) scale(0.8); }
+  30% { opacity: 1; transform: translateY(8px) scale(1.06); }
+  60% { transform: translateY(-6px) scale(0.98); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+
+
+
+.guess-icon {
+  font-size: 112px;
+  line-height: 1;
+  font-weight: 900; /* bold */
+  text-shadow: 0 6px 20px rgba(0,0,0,0.4);
+}
+
+.guess-text {
+  margin-top: 12px;
+  color: rgba(255,255,255,0.92);
+  font-weight: 600;
+  text-align: center;
+  font-size: 1rem;
+  text-shadow: none;
+  max-width: 72vw;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* colored letters for success/fail */
+.guess-card.show .guess-icon.success {
+  color: #10b981; /* green */
+}
+.guess-card.show .guess-icon.fail {
+  color: #ef4444; /* red */
 }
 
 /* --- You may need to update the game header as well --- */

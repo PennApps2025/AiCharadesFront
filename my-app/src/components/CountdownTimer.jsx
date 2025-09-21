@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 
-function CountdownTimer({ interval, onCapture, paused = false }) {
+function CountdownTimer({ interval, onCapture, paused = false, score = 0, resetSignal }) {
   const [timeLeft, setTimeLeft] = useState(interval);
-  const [captureCount, setCaptureCount] = useState(0);
 
-  // Ref to track if we've captured for this tick
+  // Ref to ensure we only trigger capture once per tick
   const capturedRef = useRef(false);
+
+  // Reset timer when resetSignal changes (e.g., backend AI response arrived)
+  useEffect(() => {
+    if (resetSignal == null) return;
+    setTimeLeft(interval);
+    capturedRef.current = false;
+  }, [resetSignal, interval]);
 
   useEffect(() => {
     if (paused) return; // do not start interval when paused
@@ -14,9 +20,7 @@ function CountdownTimer({ interval, onCapture, paused = false }) {
       setTimeLeft((prev) => {
         if (prev <= 0) {
           if (!capturedRef.current) {
-            // Trigger capture exactly once
             onCapture?.();
-            setCaptureCount((c) => c + 1);
             capturedRef.current = true;
           }
           return interval; // reset timer
@@ -32,8 +36,9 @@ function CountdownTimer({ interval, onCapture, paused = false }) {
 
   return (
     <div className="countdown-arcade">
-      <p className="countdown-text">Strike a pose in: {timeLeft}s</p>
-      <p className="capture-count">Total attemps: {captureCount}</p>
+      <p className="countdown-text">Strike a pose: {timeLeft}</p>
+      {/* Display only the user's score here */}
+      <p className="capture-count">Score: {score}</p>
     </div>
   );
 }
