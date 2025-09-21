@@ -6,7 +6,7 @@ import WebcamFeed from "./WebcamFeed";
 import AIGuessDisplay from "./AIGuessDisplay";
 import Timer from "./Timer";
 import CountdownTimer from "./CountdownTimer";
-import robotImg from "../../resources/robot.gif";
+import robotImg from "../../resources/curious_robot.gif";
 
 // Import the new CSS for layout and arcade theme
 import "../gameScreenLayout.css";
@@ -29,9 +29,11 @@ const GameScreen = ({
   return (
     <div className={"game-screen" + (isTransitioning ? " transitioning" : "")}>
       {/* Quit button fixed at top-right of the page */}
-      <button className="quit-top-right control-button" onClick={onQuit}>
-        Exit
-      </button>
+      <button
+        className="quit-top-right control-button"
+        onClick={onQuit}
+        aria-label="Exit Game"
+      ></button>
       <div className="game-header">
         <WordPrompt word={currentWord} />
         {/* Render Timer always (so it can listen to round changes) but hide when paused */}
@@ -65,9 +67,11 @@ const GameScreen = ({
       </div>
 
       <div className="game-controls">
-        <button className="control-button skip-button" onClick={onSkipWord}>
-          Skip
-        </button>
+        <button
+          className="control-button skip-button"
+          onClick={onSkipWord}
+          aria-label="Skip Word"
+        ></button>
       </div>
     </div>
   );
