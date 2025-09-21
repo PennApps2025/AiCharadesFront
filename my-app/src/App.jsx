@@ -4,12 +4,12 @@ import "./App.css";
 import StartScreen from "./components/StartScreen";
 import GameScreen from "./components/GameScreen";
 import EndScreen from "./components/EndScreen";
-// single-timer mode: no per-round intro
+import RoundIntro from "./components/RoundIntro";
 
 import { getRandomWord, sendFrameToBackend } from "./api/gameApi";
 
 // Define the game duration in seconds.
-const GAME_DURATION = 1000; // seconds for the whole match
+const GAME_DURATION = 10; // seconds for the whole match
 
 function App() {
   const [gameState, setGameState] = useState("start"); // 'start', 'playing', 'end'
@@ -20,6 +20,7 @@ function App() {
   const [aiResponseKey, setAiResponseKey] = useState(0);
   const [resultConfirmed, setResultConfirmed] = useState(null); // 'success', 'fail', null
   const [score, setScore] = useState(0);
+  const [attempts, setAttempts] = useState(0);
   const [resultMessage, setResultMessage] = useState(null);
   const [gameStartKey, setGameStartKey] = useState(0); // increment to reset timer / start new game
   const [displayedGuess, setDisplayedGuess] = useState("");
@@ -97,9 +98,11 @@ function App() {
       setCurrentWord(data.word);
       setChoices(data.choices);
       setAiResponse(null);
-      setGameState("playing");
       setScore(0);
-      // bump start key to reset timer in GameScreen/Timer
+      setAttempts(0);
+      // show round intro first, then actually start playing after intro completes
+      setGameState("intro");
+      // bump start key anyway so timer components stay deterministic
       setGameStartKey((k) => k + 1);
     } catch (error) {
       console.error("Error fetching word:", error);
@@ -109,6 +112,10 @@ function App() {
     setGameState("start");
   };
 
+
+  const handleIntroComplete = () => {
+    setGameState("playing");
+  };
 
   const handlePlayAgain = () => {
     setGameState("start");
@@ -128,6 +135,7 @@ function App() {
       const data = await sendFrameToBackend(imageBlob, currentWord, choices);
       // store the full response object
       setAiResponse(data);
+      setAttempts(prev => prev + 1);
     } catch (error) {
       console.error("Error sending frame to backend:", error);
     }
@@ -163,6 +171,10 @@ function App() {
 
       {gameState === "start" && <StartScreen onStartGame={handleStartGame} />}
 
+      {gameState === "intro" && (
+        <RoundIntro onComplete={handleIntroComplete} />
+      )}
+
       {gameState === "playing" && (
         <GameScreen
           currentWord={currentWord}
@@ -180,7 +192,7 @@ function App() {
       {gameState === "end" && (
         <EndScreen
           score={score}
-          totalRounds={GAME_DURATION} 
+          totalRounds={attempts} 
           onRestart={handleStartGame}
           onBackToStart={handleBackToStart}
         />

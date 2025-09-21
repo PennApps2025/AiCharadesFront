@@ -7,8 +7,10 @@ function CountdownTimer({ interval, onCapture, paused = false, score = 0, resetS
   const capturedRef = useRef(false);
   // When a capture is triggered we wait for backend response and keep display at 1
   const waitingForResponseRef = useRef(false);
-  // internal attempts counter (incremented when a capture is triggered)
+  // internal attempts counter (incremented when backend confirms / resetSignal arrives)
   const [attempts, setAttempts] = useState(0);
+  // mark that we have a pending attempt awaiting backend response
+  const pendingAttemptRef = useRef(false);
 
   // Reset timer when resetSignal changes (e.g., backend AI response arrived)
   useEffect(() => {
@@ -29,7 +31,8 @@ function CountdownTimer({ interval, onCapture, paused = false, score = 0, resetS
         if (prev <= 1) {
           if (!capturedRef.current) {
             onCapture?.();
-            setAttempts((a) => a + 1);
+            // mark pending attempt; actual attempts++ will occur when resetSignal arrives
+            pendingAttemptRef.current = true;
             capturedRef.current = true;
             // enter wait mode: show 1 until resetSignal
             waitingForResponseRef.current = true;
@@ -44,6 +47,15 @@ function CountdownTimer({ interval, onCapture, paused = false, score = 0, resetS
 
     return () => clearInterval(timer);
   }, [interval, onCapture, paused]);
+
+  // When resetSignal arrives (AI response), count the pending attempt as completed
+  useEffect(() => {
+    if (resetSignal == null) return;
+    if (pendingAttemptRef.current) {
+      setAttempts((a) => a + 1);
+      pendingAttemptRef.current = false;
+    }
+  }, [resetSignal]);
 
   return (
     <div className="countdown-arcade">
