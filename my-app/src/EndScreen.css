@@ -1,0 +1,52 @@
+/* --- End Screen Styling --- */
+.end-screen {
+  position: fixed;       /* Fix to viewport */
+  top: 0;
+  left: 0;
+  height: 100vh;         /* Full viewport height */
+  width: 100vw;          /* Full viewport width */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(145deg, #0d0d0d, #1e1e1e); /* dark neon theme */
+  color: #e0e0e0;
+  margin: 0;             /* Remove any default margin */
+  padding: 0;            /* Remove padding */
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* --- Title --- */
+.end-title {
+  font-size: clamp(2rem, 6vw, 4rem); /* scales with viewport */
+  margin-bottom: 1.5rem;
+  color: #ff1a1a; /* Coral red */
+}
+
+/* --- Score --- */
+.end-score {
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  margin-bottom: 2.5rem;
+  color: #ff6b6b; /* Bright cyan */
+}
+
+/* --- Button --- */
+.end-button {
+  padding: clamp(10px, 1.5vw, 18px) clamp(20px, 4vw, 36px);
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: bold;
+  border: none;
+  border-radius: 12px;
+  background: #4caf50;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+}
+
+.end-button:hover {
+  background: #45a049;
+  transform: translateY(-3px) scale(1.05);
+
+}
