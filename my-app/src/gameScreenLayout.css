@@ -167,6 +167,50 @@
   box-shadow: 0 0 15px #7c3aed;
 }
 
+/* Make only the Skip Word button wider/responsive without changing other controls */
+.skip-button {
+  /* responsive width: up to 60vw but cap at 540px */
+  width: min(60vw, 700px);
+  max-width: 100%;
+  display: inline-block;
+  text-align: center;
+}
+
+/* Game-style typography for Skip button only */
+.skip-button {
+  font-size: 2rem; /* slightly smaller than main control to fit wider width */
+  letter-spacing: 0.06em;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6), 0 2px 6px rgba(124, 58, 237, 0.15);
+  padding-top: 14px;
+  padding-bottom: 14px;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+}
+
+/* Quit button fixed at the top-right corner */
+.quit-top-right {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 9999;
+  padding: 10px 18px;
+  border-radius: 10px;
+  background: linear-gradient(to right, #ef4444, #f97316);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif;
+}
+
+@media (max-width: 700px) {
+  .quit-top-right {
+    top: 12px;
+    right: 12px;
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+}
+
 /* --- Responsive Adjustments --- */
 @media (max-width: 700px) {
   .webcam-countdown-container {
@@ -197,6 +241,11 @@
   .control-button {
     font-size: 0.75rem;
     padding: 8px 16px;
+  }
+
+  /* On small screens make sure the skip button doesn't overflow */
+  .skip-button {
+    width: 100vw;
   }
 
   .robot-image {
