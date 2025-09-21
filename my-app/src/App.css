@@ -51,22 +51,129 @@ body {
   box-shadow: 0 6px 20px rgba(79, 70, 229, 0.7);
 }
 
-/* --- Start and Win Screen Containers --- */
-.start-screen,
-.win-screen {
-  margin-top: 50px;
-  padding: 30px;
-  background-color: #1e1e1e;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+/* Start image used as interactive start control */
+.start-image-button {
+  width: 180px;
+  height: 60px; /* image aspect can be adjusted */
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  cursor: pointer;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.start-image-button:focus,
+.start-image-button:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+  outline: none;
 }
 
-/* Start/Win Screen Titles */
-.start-screen h2,
-.win-screen h2 {
-  font-size: 2rem;
-  color: #4f46e5; /* Vibrant blue */
-  margin-bottom: 15px;
+/* If using the raw image element as the interactive control */
+.start-image {
+  width: 180px;
+  height: auto;
+  cursor: pointer;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  -webkit-user-drag: none; /* Prevent dragging in WebKit-based browsers */
+}
+.start-image:focus,
+.start-image:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.55);
+  outline: 3px solid rgba(124, 58, 237, 0.45);
+  outline-offset: 4px;
+}
+.start-image:active {
+  transform: translateY(0) scale(0.995);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+/* --- Start Screen Background --- */
+.start-screen {
+  /* Use the project's resources background image and force it to fill the viewport */
+  position: fixed; /* ensure it always covers the viewport regardless of parent containers */
+  inset: 0; /* top:0; right:0; bottom:0; left:0 */
+  background-image: url("/resources/background.jpg");
+  background-size: cover; /* cover entire viewport */
+  background-position: center center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 0;
+}
+
+.start-screen-content {
+  background: rgba(0, 0, 0, 0.45); /* dark overlay for readability */
+  padding: 30px 36px;
+  border-radius: 12px;
+  color: #fff;
+  text-align: center;
+  max-width: 720px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  position: absolute; /* absolute so we can horizontally center with left/transform */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1; /* ensure content sits above the fixed background */
+}
+
+/* Title image: center exactly in the viewport */
+.start-title {
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  transform: translate(-50%, -50%);
+  width: min(60vw, 700px);
+  max-width: 90%;
+  height: auto;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.6));
+  /* Use a title-specific pulse that preserves the translate centering */
+  animation: titlePulse 1.2s infinite;
+}
+
+/* --- Robots (start screen decoration) --- */
+.start-robot-left,
+.start-robot-right {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 120px;
+  height: auto;
+  z-index: 1;
+  pointer-events: none;
+  user-select: none;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.6));
+}
+
+.start-robot-left {
+  left: 12vw; /* move closer to center */
+  top: 50%;
+  width: 250px;
+}
+.start-robot-right {
+  right: 12vw; /* move closer to center */
+  top: 56%;
+  width: 280px;
+}
+
+@media (max-width: 700px) {
+  .start-robot-left,
+  .start-robot-right {
+    display: none;
+  }
+}
+
+/* Push the content below the centered title so they don't overlap */
+.start-screen-content {
+  margin-top: 28vh;
 }
 
 /* --- Main Game Screen --- */
@@ -176,6 +283,17 @@ body {
   }
 }
 
+/* Keep translate(x,y) constant and only animate scale to avoid shifting */
+@keyframes titlePulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.05);
+  }
+}
+
 .animate-pulse {
   animation: pulse 1s infinite;
 }
@@ -208,6 +326,18 @@ body {
     font-size: 1rem;
     padding: 10px 24px;
   }
+
+  .start-title {
+    top: 36%;
+    width: 80vw;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .start-screen-content {
+    margin-top: 42vh;
+    padding: 18px 20px;
+  }
 }
 
 .timer-bar-container {
@@ -233,7 +363,7 @@ body {
 /* --- Guess overlay animations --- */
 .guess-overlay {
   position: fixed;
-  top: 24px;
+  top: 150px; /* overlay finish location */
   left: 50%;
   transform: translateX(-50%);
   z-index: 4000;
@@ -267,9 +397,9 @@ body {
 
 
 .guess-icon {
-  font-size: 112px;
+  font-size: 140px;
   line-height: 1;
-  font-weight: 900; /* bold */
+  font-weight: 800; /* bold */
   text-shadow: 0 6px 20px rgba(0,0,0,0.4);
 }
 

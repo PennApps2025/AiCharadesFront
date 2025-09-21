@@ -51,22 +51,23 @@
 
 /* --- Countdown Timer Arcade Style --- */
 .countdown-arcade {
-  /* Larger fixed-size countdown to fit countdown text on one line */
-  width: 360px; /* increased width */
+  /* Positioned to the right-top of the webcam container */
+  width: 380px; /* allow single-line countdown */
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 25px rgba(79, 70, 229, 0.5);
-  background: linear-gradient(135deg, #1e1e2f, #28293d);
-  border: 3px solid #7c3aed;
-  border-radius: 16px;
-  padding: 15px;
+  /* make background fully transparent */
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 10px;
+  padding: 12px 18px;
   position: absolute;
-  left: calc(50% + 350px + 60px);
-  top: 30%;
-  transform: translateY(-50%);
-  /* removed pulse animation per request */
+  /* Shift further right so it doesn't overlap the webcam (tweak if your webcam width changes) */
+  left: calc(50% + 420px);
+  top: 10%;
+  transform: translateY(0%);
 }
 
 /* --- Robot image positioned to the left of the centered webcam --- */
@@ -110,10 +111,10 @@
 /* Countdown Text */
 .countdown-text {
   font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 1.6rem; /* slightly larger for visibility */
-  font-weight: 700; /* bold to match ai-guess */
+  font-size: 2.2rem; /* larger for emphasis */
+  font-weight: 900;
   color: #22c55e;
-  margin-bottom: 6px;
+  margin: 0 0 8px 0; /* add space below countdown */
   letter-spacing: 0.8px;
   white-space: nowrap; /* keep countdown on a single line */
   overflow: hidden;
@@ -123,10 +124,19 @@
 /* Capture Count */
 .capture-count {
   font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  font-size: 1.25rem; /* larger to emphasize score */
-  font-weight: 800;
+  font-size: 2.2rem; /* slightly larger */
+  font-weight: 900;
   color: #ffd54f; /* warm yellow to stand out against dark background */
   margin: 0;
+  margin-top: 2px;
+}
+
+.attempts-count {
+  font-family: -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 2.2rem; /* per request */
+  font-weight: 900;
+  color: #9ad3ff; /* soft cyan for contrast */
+  margin: 6px 0 0 0;
 }
 
 .capture-count .small-muted {
