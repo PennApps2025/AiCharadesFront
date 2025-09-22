@@ -4,6 +4,8 @@
 
 CharAIdes is a real-time, AI-powered charades frontend where a player acts out a word on webcam and an AI (via our backend) tries to guess it. Built for **[PennApps XXVI](https://devpost.com/software/ai-charade)**, this frontend focuses on low-latency webcam capture, smooth UX, and a neon/arcade visual theme.
 
+[See Backend](https://github.com/PennApps2025/BackAiCharades)
+
 ## 💡 Inspiration
 We wanted to blend physical play with modern AI: take classic charades and let an AI act as the judge in real-time. That makes the game playable anywhere — solo, remote with friends, or in group settings without a human judge.
 
@@ -26,12 +28,6 @@ We wanted to blend physical play with modern AI: take classic charades and let a
 - Networking: Axios for REST API calls to backend endpoints (e.g., /leaderboard, /guess)  
 - Browser APIs: MediaDevices API, Canvas for frame capture  
 - Styling: Custom CSS (neon/arcade theme)
-
-Backend & AI 
-- Backend: FastAPI (Python) with SQLite for leaderboard persistence  
-- AI: Gemini API for vision/LLM-based image interpretation
-
-(See backend: https://github.com/PennApps2025/BackAiCharades)
 
 ## 🛠 How we built it
 - React components for StartScreen, GameScreen, Webcam/Canvas capture, CountdownTimer, EndScreen, and Leaderboard.
