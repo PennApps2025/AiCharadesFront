@@ -38,16 +38,3 @@ Frontend runs at:
 This frontend expects the backend (FastAPI) to be running at:
 
 http://localhost:8000
-
-FrontAiCharades/
-├── src/
-│   ├── components/     # UI components (Webcam, Timer, AI Guess, etc.)
-│   ├── App.jsx         # Main app logic
-│   ├── App.css         # Global styling
-│   └── index.js        # Entry point
-├── public/             # Static assets
-└── package.json
-
-📜 License
-
-MIT License © 2025 PennApps2025 Team
