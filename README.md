@@ -1,4 +1,4 @@
-# 🎭 CharAIdes - Frontend
+# 🤖 CharAIdes - Frontend
 
 **🏆 Winner — Most Creative Hack at PennApps XXVI**
 
@@ -27,11 +27,11 @@ We wanted to blend physical play with modern AI: take classic charades and let a
 - Browser APIs: MediaDevices API, Canvas for frame capture  
 - Styling: Custom CSS (neon/arcade theme)
 
-Backend & AI (for context)
+Backend & AI 
 - Backend: FastAPI (Python) with SQLite for leaderboard persistence  
 - AI: Gemini API for vision/LLM-based image interpretation
 
-(See backend repo: https://github.com/PennApps2025/BackAiCharades)
+(See backend: https://github.com/PennApps2025/BackAiCharades)
 
 ## 🛠 How we built it
 - React components for StartScreen, GameScreen, Webcam/Canvas capture, CountdownTimer, EndScreen, and Leaderboard.
